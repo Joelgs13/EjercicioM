@@ -15,10 +15,11 @@ public class DaoUsuarios {
         this.conexion = conexion;
     }
 
+
     // Método para obtener un usuario de la base de datos por su nombre de usuario
     public UsuarioModel getUsuario(String nombreUsuario) {
         UsuarioModel usuario = null;
-        String sql = "SELECT * FROM Usuario WHERE usuario = ?";
+        String sql = "SELECT * FROM usuarios WHERE usuario = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, nombreUsuario);

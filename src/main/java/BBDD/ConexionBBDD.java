@@ -36,7 +36,7 @@ public class ConexionBBDD {
 
         // Establecer la conexión a la base de datos con los parámetros especificados
         connection = DriverManager.getConnection(
-                "jdbc:mariadb://127.0.0.1:33066/personas?serverTimezone=Europe/Madrid",
+                "jdbc:mariadb://127.0.0.1:33066/aeropuertos?serverTimezone=Europe/Madrid",
                 connConfig
         );
         connection.setAutoCommit(true); // Configura el modo de autocommit para la conexión
