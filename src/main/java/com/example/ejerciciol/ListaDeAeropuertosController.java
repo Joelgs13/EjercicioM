@@ -1,34 +1,58 @@
 package com.example.ejerciciol;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 
 public class ListaDeAeropuertosController {
-    public ToggleGroup grupoRB;
-    public RadioButton rbPrivados;
-    public RadioButton rbPublicos;
-    public TableView table;
 
-    public void editarAeropuerto(ActionEvent actionEvent) {
+    @FXML
+    private ToggleGroup grupoRB;
+
+    @FXML
+    private RadioButton rbPrivados;
+
+    @FXML
+    private RadioButton rbPublicos;
+
+    @FXML
+    private TableView<?> table;
+
+    @FXML
+    void activarDesactivarAvion(ActionEvent event) {
+
     }
 
-    public void informacionAeropuerto(ActionEvent actionEvent) {
+    @FXML
+    void aniadirAeropuerto(ActionEvent event) {
+
     }
 
-    public void borrarAeropuerto(ActionEvent actionEvent) {
+    @FXML
+    void aniadirAvion(ActionEvent event) {
+
     }
 
-    public void aniadirAeropuerto(ActionEvent actionEvent) {
+    @FXML
+    void borrarAeropuerto(ActionEvent event) {
+
     }
 
-    public void activarDesactivarAvion(ActionEvent actionEvent) {
+    @FXML
+    void editarAeropuerto(ActionEvent event) {
+
     }
 
-    public void aniadirAvion(ActionEvent actionEvent) {
+    @FXML
+    void eliminarAvion(ActionEvent event) {
+
     }
 
-    public void eliminarAvion(ActionEvent actionEvent) {
+    @FXML
+    void informacionAeropuerto(ActionEvent event) {
+
     }
+
 }

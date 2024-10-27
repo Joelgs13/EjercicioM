@@ -1,27 +1,57 @@
 package com.example.ejerciciol;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 public class AniadirEditarAeropuertosController {
-    public TextField tfNombre;
-    public TextField tfPais;
-    public TextField tfCiudad;
-    public TextField tfCalle;
-    public TextField tfNumero;
-    public TextField tfAñoDeInauguracion;
-    public TextField tfCapacidad;
-    public TextField tfFinanciacion;
-    public TextField tfTrabajadores;
-    public RadioButton rbPublico;
-    public ToggleGroup rbTipoAeropuerto;
-    public RadioButton rbPrivado;
 
-    public void guardar(ActionEvent actionEvent) {
+    @FXML
+    private RadioButton rbPrivado;
+
+    @FXML
+    private RadioButton rbPublico;
+
+    @FXML
+    private ToggleGroup rbTipoAeropuerto;
+
+    @FXML
+    private TextField tfAñoDeInauguracion;
+
+    @FXML
+    private TextField tfCalle;
+
+    @FXML
+    private TextField tfCapacidad;
+
+    @FXML
+    private TextField tfCiudad;
+
+    @FXML
+    private TextField tfFinanciacion;
+
+    @FXML
+    private TextField tfNombre;
+
+    @FXML
+    private TextField tfNumero;
+
+    @FXML
+    private TextField tfPais;
+
+    @FXML
+    private TextField tfTrabajadores;
+
+    @FXML
+    void cancelar(ActionEvent event) {
+
     }
 
-    public void cancelar(ActionEvent actionEvent) {
+    @FXML
+    void guardar(ActionEvent event) {
+
     }
+
 }
