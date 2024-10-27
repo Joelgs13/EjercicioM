@@ -14,7 +14,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         Properties connConfig = ConexionBBDD.loadProperties();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 220, 150);
+        stage.setResizable(false);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

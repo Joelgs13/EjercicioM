@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 public class ListaDeAeropuertosController {
@@ -19,6 +20,9 @@ public class ListaDeAeropuertosController {
 
     @FXML
     private TableView<?> table;
+
+    @FXML
+    private TextField tfNombre;
 
     @FXML
     void activarDesactivarAvion(ActionEvent event) {
@@ -47,6 +51,11 @@ public class ListaDeAeropuertosController {
 
     @FXML
     void eliminarAvion(ActionEvent event) {
+
+    }
+
+    @FXML
+    void filtrarPorNombre(ActionEvent event) {
 
     }
 
