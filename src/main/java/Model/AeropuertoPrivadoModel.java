@@ -1,18 +1,40 @@
 package Model;
 
-public class AeropuertoPrivadoModel {
-    private int idAeropuerto;
-    private int numeroSocios;
+import java.sql.Blob;
+import java.util.Objects;
 
-    public AeropuertoPrivadoModel(int idAeropuerto, int numeroSocios) {
-        this.idAeropuerto = idAeropuerto;
-        this.numeroSocios = numeroSocios;
+public class AeropuertoPrivadoModel extends AeropuertoModel {
+
+    int numSocios;
+
+    public AeropuertoPrivadoModel(String nombre, int anioInauguracion, int capacidad, DireccionModel direccion, Blob imagen, int numSocios) {
+        super(nombre, anioInauguracion, capacidad, direccion, imagen);
+        this.numSocios = numSocios;
     }
 
-    // Getters y Setters
-    public int getIdAeropuerto() { return idAeropuerto; }
-    public void setIdAeropuerto(int idAeropuerto) { this.idAeropuerto = idAeropuerto; }
+    public int getNumSocios() {
+        return numSocios;
+    }
 
-    public int getNumeroSocios() { return numeroSocios; }
-    public void setNumeroSocios(int numeroSocios) { this.numeroSocios = numeroSocios; }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Objects.hash(numSocios);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AeropuertoPrivadoModel other = (AeropuertoPrivadoModel) obj;
+        return anioInauguracion == other.anioInauguracion && capacidad == other.capacidad
+                && Objects.equals(direccion, other.direccion) && id == other.id && Objects.equals(imagen, other.imagen)
+                && Objects.equals(nombre, other.nombre) && numSocios == other.numSocios;
+    }
 }

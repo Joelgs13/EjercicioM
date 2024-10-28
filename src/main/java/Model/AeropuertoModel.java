@@ -1,19 +1,22 @@
 package Model;
 
-public class AeropuertoModel {
-    private int id;
-    private String nombre;
-    private int anioInauguracion;
-    private int capacidad;
-    private int idDireccion;
-    private byte[] imagen;
+import java.sql.Blob;
+import java.util.Objects;
 
-    public AeropuertoModel(int id, String nombre, int anioInauguracion, int capacidad, int idDireccion, byte[] imagen) {
-        this.id = id;
+public class AeropuertoModel {
+     int id;
+     String nombre;
+     int anioInauguracion;
+     int capacidad;
+     DireccionModel direccion;
+     Blob imagen;
+
+    public AeropuertoModel(String nombre, int anioInauguracion, int capacidad, DireccionModel direccion, Blob imagen) {
+        super();
         this.nombre = nombre;
         this.anioInauguracion = anioInauguracion;
         this.capacidad = capacidad;
-        this.idDireccion = idDireccion;
+        this.direccion = direccion;
         this.imagen = imagen;
     }
 
@@ -22,17 +25,32 @@ public class AeropuertoModel {
     public void setId(int id) { this.id = id; }
 
     public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
     public int getAnioInauguracion() { return anioInauguracion; }
-    public void setAnioInauguracion(int anioInauguracion) { this.anioInauguracion = anioInauguracion; }
-
     public int getCapacidad() { return capacidad; }
-    public void setCapacidad(int capacidad) { this.capacidad = capacidad; }
+    public DireccionModel getDireccion() { return direccion; }
+    public Blob getImagen() { return imagen; }
 
-    public int getIdDireccion() { return idDireccion; }
-    public void setIdDireccion(int idDireccion) { this.idDireccion = idDireccion; }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AeropuertoModel other = (AeropuertoModel) obj;
+        return anioInauguracion == other.anioInauguracion && capacidad == other.capacidad
+                && Objects.equals(direccion, other.direccion) && id == other.id && Objects.equals(imagen, other.imagen)
+                && Objects.equals(nombre, other.nombre);
+    }
 
-    public byte[] getImagen() { return imagen; }
-    public void setImagen(byte[] imagen) { this.imagen = imagen; }
+    @Override
+    public int hashCode() {
+        return Objects.hash(anioInauguracion, capacidad, direccion, id, imagen, nombre);
+    }
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 }
