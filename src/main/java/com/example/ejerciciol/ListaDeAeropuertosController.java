@@ -13,10 +13,15 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class ListaDeAeropuertosController {
@@ -202,7 +207,23 @@ public class ListaDeAeropuertosController {
 
     @FXML
     void aniadirAeropuerto(ActionEvent event) {
-        // Lógica para añadir un nuevo aeropuerto
+        try {
+            // Carga el archivo FXML
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("aniadirEditarAeropuertos.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // Configura el nuevo Stage para la ventana
+            Stage stage = new Stage();
+            stage.setTitle("Añadir o Editar Aeropuerto");
+            stage.setScene(new Scene(root));
+
+            // Muestra la ventana y espera a que el usuario la cierre antes de volver a la ventana principal
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
