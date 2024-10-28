@@ -1,8 +1,7 @@
 package com.example.ejerciciol;
 
-import BBDD.ConexionBBDD;
 import DAO.DaoUsuarios;
-import Model.UsuarioModel; // Asegúrate de que este modelo exista
+import Model.UsuarioModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class LoginController {
 
@@ -28,28 +25,13 @@ public class LoginController {
     @FXML
     private TextField tfUsuario;
 
-    private DaoUsuarios daoUsuarios;
-
-    // Constructor para inicializar DaoUsuarios
-    public LoginController() {
-        // Suponiendo que tienes un método para obtener la conexión a la base de datos
-        ConexionBBDD bd;
-        try {
-            bd = new ConexionBBDD();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        Connection connection = bd.getConnection(); // Ajusta esto según tu implementación
-        daoUsuarios = new DaoUsuarios(connection);
-    }
-
     @FXML
     void login(ActionEvent event) {
         String usuario = tfUsuario.getText();
         String password = tfPassword.getText();
 
         // Comprobar si el usuario existe
-        UsuarioModel usuarioModel = daoUsuarios.getUsuario(usuario);
+        UsuarioModel usuarioModel = DaoUsuarios.getUsuario(usuario);
         if (usuarioModel != null && usuarioModel.getPassword().equals(password)) {
             // Usuario encontrado, cargar la pantalla de lista de aeropuertos
             loadAeropuertosScreen();

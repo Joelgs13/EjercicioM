@@ -1,5 +1,6 @@
 package DAO;
 
+import BBDD.ConexionBBDD;
 import Model.UsuarioModel;
 
 import java.sql.Connection;
@@ -8,20 +9,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DaoUsuarios {
-    private Connection conexion;
-
-    // Constructor que recibe la conexión de la base de datos
-    public DaoUsuarios(Connection conexion) {
-        this.conexion = conexion;
-    }
-
 
     // Método para obtener un usuario de la base de datos por su nombre de usuario
-    public UsuarioModel getUsuario(String nombreUsuario) {
+    public static UsuarioModel getUsuario(String nombreUsuario) {
+        Connection connection = null;
         UsuarioModel usuario = null;
         String sql = "SELECT * FROM usuarios WHERE usuario = ?";
 
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        try {
+            ConexionBBDD cBD = new ConexionBBDD();
+            connection = ConexionBBDD.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, nombreUsuario);
             ResultSet rs = stmt.executeQuery();
 
@@ -35,9 +33,17 @@ public class DaoUsuarios {
 
         } catch (SQLException e) {
             System.out.println("Error al obtener el usuario: " + e.getMessage());
+        } finally {
+            // Cerrar la conexión después de usarla
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
         }
 
         return usuario;
     }
 }
-

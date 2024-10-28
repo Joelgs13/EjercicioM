@@ -13,7 +13,7 @@ public class DaoAeropuerto {
     private static Connection connection;
 
     // Método para obtener un aeropuerto por ID
-    public AeropuertoModel getAeropuerto(int id) throws SQLException {
+    public static AeropuertoModel getAeropuerto(int id) throws SQLException {
         connection = ConexionBBDD.getConnection();
         String query = "SELECT * FROM aeropuertos WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -36,7 +36,8 @@ public class DaoAeropuerto {
     }
 
     // Método para insertar un nuevo aeropuerto
-    public boolean insertarAeropuerto(AeropuertoModel aeropuerto) throws SQLException {
+    public static boolean insertarAeropuerto(AeropuertoModel aeropuerto) throws SQLException {
+        connection = ConexionBBDD.getConnection();
         String query = "INSERT INTO aeropuertos (nombre, anio_inauguracion, capacidad, id_direccion, imagen) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, aeropuerto.getNombre());
@@ -50,7 +51,8 @@ public class DaoAeropuerto {
     }
 
     // Método para eliminar un aeropuerto
-    public boolean eliminarAeropuerto(AeropuertoModel aeropuerto) throws SQLException {
+    public static boolean eliminarAeropuerto(AeropuertoModel aeropuerto) throws SQLException {
+        connection = ConexionBBDD.getConnection();
         String query = "DELETE FROM aeropuertos WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, aeropuerto.getId());
@@ -60,7 +62,8 @@ public class DaoAeropuerto {
     }
 
     // Método para modificar un aeropuerto existente con datos de un nuevo aeropuerto
-    public boolean modificarAeropuerto(AeropuertoModel aeropuertoActual, AeropuertoModel nuevoAeropuerto) throws SQLException {
+    public static boolean modificarAeropuerto(AeropuertoModel aeropuertoActual, AeropuertoModel nuevoAeropuerto) throws SQLException {
+        connection = ConexionBBDD.getConnection();
         String query = "UPDATE aeropuertos SET nombre = ?, anio_inauguracion = ?, capacidad = ?, id_direccion = ?, imagen = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, nuevoAeropuerto.getNombre());
@@ -74,9 +77,11 @@ public class DaoAeropuerto {
         }
     }
 
-    public List<AeropuertoModel> obtenerAeropuertosPublicos() throws SQLException {
+    // Método para obtener la lista de aeropuertos públicos
+    public static List<AeropuertoModel> obtenerAeropuertosPublicos() throws SQLException {
+        connection = ConexionBBDD.getConnection();
         List<AeropuertoModel> aeropuertosPublicos = new ArrayList<>();
-        String query = "SELECT * FROM aeropuertos WHERE id IN (SELECT id_aeropuerto FROM aeropuertos_publicos)"; // Asumiendo que el id de aeropuerto está en aeropuertos_publicos
+        String query = "SELECT * FROM aeropuertos WHERE id IN (SELECT id_aeropuerto FROM aeropuertos_publicos)";
 
         try (PreparedStatement stmt = connection.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -93,7 +98,6 @@ public class DaoAeropuerto {
                 aeropuertosPublicos.add(aeropuerto);
             }
         }
-        return aeropuertosPublicos; // Retorna la lista de aeropuertos públicos
+        return aeropuertosPublicos;
     }
-
 }
