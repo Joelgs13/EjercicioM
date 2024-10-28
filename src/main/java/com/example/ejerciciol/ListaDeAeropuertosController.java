@@ -131,7 +131,7 @@ public class ListaDeAeropuertosController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        tfNombre.setOnKeyReleased(event -> accionFiltrar());
+        tfNombre.setOnKeyReleased(event -> filtrarPorNombre());
         //Tabla publico
         listaTodasPublico= DaoAeropuertoPublico.cargarListaAeropuertosPublicos();
         tablaPubli.setItems(listaTodasPublico);
@@ -169,8 +169,30 @@ public class ListaDeAeropuertosController {
         tablaPriv.setItems(listaTodasPrivado);
     }
 
-    private void accionFiltrar() {
+    private void filtrarPorNombre() {
+        String filtroTexto = tfNombre.getText().toLowerCase();  // Convertir el texto del filtro a minúsculas para hacer una búsqueda no sensible a mayúsculas/minúsculas
+
+        if (esPublico) {
+            filtroPublico.setPredicate(aeropuerto -> {
+                if (filtroTexto == null || filtroTexto.isEmpty()) {
+                    return true;  // Muestra todos si el filtro está vacío
+                }
+                String nombreAeropuerto = aeropuerto.getNombre().toLowerCase();
+                return nombreAeropuerto.contains(filtroTexto);  // Verifica si el nombre contiene el texto del filtro
+            });
+            tablaPubli.setItems(filtroPublico);  // Actualiza la tabla pública con el filtro
+        } else {
+            filtroPrivado.setPredicate(aeropuerto -> {
+                if (filtroTexto == null || filtroTexto.isEmpty()) {
+                    return true;  // Muestra todos si el filtro está vacío
+                }
+                String nombreAeropuerto = aeropuerto.getNombre().toLowerCase();
+                return nombreAeropuerto.contains(filtroTexto);  // Verifica si el nombre contiene el texto del filtro
+            });
+            tablaPriv.setItems(filtroPrivado);  // Actualiza la tabla privada con el filtro
+        }
     }
+
 
     // Métodos de acción del menú
     @FXML
