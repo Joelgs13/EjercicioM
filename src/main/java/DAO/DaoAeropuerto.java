@@ -1,20 +1,20 @@
 package DAO;
 
+import BBDD.ConexionBBDD;
 import Model.AeropuertoModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DaoAeropuerto {
-    private Connection connection;
-
-    public DaoAeropuerto(Connection connection) {
-        this.connection = connection;
-    }
+    private static Connection connection;
 
     // Método para obtener un aeropuerto por ID
     public AeropuertoModel getAeropuerto(int id) throws SQLException {
+        connection = ConexionBBDD.getConnection();
         String query = "SELECT * FROM aeropuertos WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
@@ -73,4 +73,27 @@ public class DaoAeropuerto {
             return stmt.executeUpdate() > 0;
         }
     }
+
+    public List<AeropuertoModel> obtenerAeropuertosPublicos() throws SQLException {
+        List<AeropuertoModel> aeropuertosPublicos = new ArrayList<>();
+        String query = "SELECT * FROM aeropuertos WHERE id IN (SELECT id_aeropuerto FROM aeropuertos_publicos)"; // Asumiendo que el id de aeropuerto está en aeropuertos_publicos
+
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                AeropuertoModel aeropuerto = new AeropuertoModel(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getInt("anio_inauguracion"),
+                        rs.getInt("capacidad"),
+                        rs.getInt("id_direccion"),
+                        rs.getBytes("imagen")
+                );
+                aeropuertosPublicos.add(aeropuerto);
+            }
+        }
+        return aeropuertosPublicos; // Retorna la lista de aeropuertos públicos
+    }
+
 }

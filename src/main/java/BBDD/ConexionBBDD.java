@@ -17,7 +17,7 @@ import java.util.Properties;
 public class ConexionBBDD {
 
     /** Conexión activa a la base de datos. */
-    private final Connection connection;
+    private static Connection connection;
 
     /**
      * Constructor que establece la conexión con la base de datos.
@@ -30,19 +30,10 @@ public class ConexionBBDD {
      *                      o las credenciales son incorrectas).
      */
     public ConexionBBDD() throws SQLException {
-        Properties connConfig = new Properties();
-        connConfig.setProperty("user", "root");
-        connConfig.setProperty("password", "mypass");
-
-        // Establecer la conexión a la base de datos con los parámetros especificados
-        connection = DriverManager.getConnection(
-                "jdbc:mariadb://127.0.0.1:33066/aeropuertos?serverTimezone=Europe/Madrid",
-                connConfig
-        );
-        connection.setAutoCommit(true); // Configura el modo de autocommit para la conexión
-
-        // Información de la base de datos (opcional para depuración)
-        DatabaseMetaData databaseMetaData = connection.getMetaData();
+        Properties connConfig = loadProperties();
+        String url=connConfig.getProperty("dburl");
+        connection = DriverManager.getConnection(url, connConfig);
+        connection.setAutoCommit(true);
     }
 
     /**
@@ -50,7 +41,7 @@ public class ConexionBBDD {
      *
      * @return La conexión activa a la base de datos.
      */
-    public Connection getConnection() {
+    public static Connection getConnection() {
         return connection;
     }
 
