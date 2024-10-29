@@ -240,7 +240,20 @@ public class ListaDeAeropuertosController {
 
     @FXML
     void aniadirAvion(ActionEvent event) {
-        // Lógica para añadir un nuevo avión
+        s=new Stage();
+        Scene scene;
+        try {
+            FXMLLoader controlador = new FXMLLoader(HelloApplication.class.getResource("aniadirAvion.fxml"));
+            scene = new Scene(controlador.load());
+            s.setTitle("AÑADIR NUEVO AVION");
+            s.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        s.setResizable(false);
+        s.initOwner(HelloApplication.getStage());
+        s.initModality(javafx.stage.Modality.WINDOW_MODAL);
+        s.showAndWait();
     }
 
     @FXML
