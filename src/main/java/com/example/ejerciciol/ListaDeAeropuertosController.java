@@ -222,7 +222,7 @@ public class ListaDeAeropuertosController {
         try {
             FXMLLoader controlador = new FXMLLoader(HelloApplication.class.getResource("aniadirEditarAeropuertos.fxml"));
             scene = new Scene(controlador.load());
-            s.setTitle("AVIONES - AÑADIR AEROPUERTO");
+            s.setTitle("AÑADIR AEROPUERTO");
             s.setScene(scene);
             AniadirEditarAeropuertosController controller = controlador.getController();
             controller.setTablaPriv(tablaPriv);
@@ -251,7 +251,56 @@ public class ListaDeAeropuertosController {
 
     @FXML
     void editarAeropuerto(ActionEvent event) {
-        // Lógica para editar un aeropuerto
+        esAniadir=false;
+        if(tablaPriv.getSelectionModel().getSelectedItem()!=null||tablaPubli.getSelectionModel().getSelectedItem()!=null) {
+            s=new Stage();
+            Scene scene;
+            try {
+                FXMLLoader controlador = new FXMLLoader(HelloApplication.class.getResource("aniadirEditarAeropuertos.fxml"));
+                scene = new Scene(controlador.load());
+                s.setTitle("EDITAR AEROPUERTO");
+                s.setScene(scene);
+                AniadirEditarAeropuertosController controller = controlador.getController();
+                controller.setTablaPriv(tablaPriv);
+                controller.setTablaPubli(tablaPubli);
+                if(esPublico) {
+                    AeropuertoPublicoModel modelo=tablaPubli.getSelectionModel().getSelectedItem();
+                    controller.setTxtAnioInauguracionText(modelo.getAnioInauguracion()+"") ;
+                    controller.setTxtCalleText(modelo.getDireccion().getCalle());
+                    controller.setTxtCapacidadText(modelo.getCapacidad()+"");
+                    controller.setTxtCiudadText(modelo.getDireccion().getCiudad());
+                    controller.setTxtFinanciacionText(modelo.getFinanciacion()+"");
+                    controller.setTxtNombreText(modelo.getNombre());
+                    controller.setTxtNumeroText(modelo.getDireccion().getNumero()+"");
+                    controller.setTxtNumTrabajadoresText(modelo.getNumTrabajadores()+"");
+                    controller.setTxtPaisText(modelo.getDireccion().getPais());
+                }else {
+                    AeropuertoPrivadoModel modelo=tablaPriv.getSelectionModel().getSelectedItem();
+                    controller.setTxtAnioInauguracionText(modelo.getAnioInauguracion()+"") ;
+                    controller.setTxtCalleText(modelo.getDireccion().getCalle());
+                    controller.setTxtCapacidadText(modelo.getCapacidad()+"");
+                    controller.setTxtCiudadText(modelo.getDireccion().getCiudad());
+                    controller.setTxtNombreText(modelo.getNombre());
+                    controller.setTxtNumeroText(modelo.getDireccion().getNumero()+"");
+                    controller.setTxtNumSociosText(modelo.getNumSocios()+"");
+                    controller.setTxtPaisText(modelo.getDireccion().getPais());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            s.setResizable(false);
+            s.initOwner(HelloApplication.getStage());
+            s.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            s.showAndWait();
+            filtrarPorNombre();
+            tablaPriv.refresh();
+            tablaPubli.refresh();
+        }else {
+            Alert al=new Alert(Alert.AlertType.ERROR);
+            al.setHeaderText(null);
+            al.setContentText("NINGUN AEROPUERTO SELECCIONADO");
+            al.showAndWait();
+        }
     }
 
     @FXML

@@ -88,5 +88,22 @@ public class DaoAeropuerto {
         }
         return null;
     }
+
+    public static void modificarPorId(int id,String nombre,int anioInauguracion,int capacidad,int idDireccion,Blob imagen) {
+        connection=ConexionBBDD.getConnection();
+        String update="UPDATE aeropuertos SET nombre=?,anio_inauguracion=?,capacidad=?,id_direccion=?,imagen=? WHERE id=?";
+        try {
+            PreparedStatement pstmt=connection.prepareStatement(update);
+            pstmt.setString(1,nombre);
+            pstmt.setInt(2,anioInauguracion);
+            pstmt.setInt(3,capacidad);
+            pstmt.setInt(4,idDireccion);
+            pstmt.setBlob(5,imagen);
+            pstmt.setInt(6,id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

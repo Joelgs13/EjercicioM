@@ -228,7 +228,45 @@ public class AniadirEditarAeropuertosController {
         ListaDeAeropuertosController.getS().close();
     }
 
-    private void modificarAeropuerto(String error, String nombre, String pais, String ciudad, String calle, int numero, int anioInauguracion, int capacidad, boolean esPublico, float financiacion, int numTrabajadores, int numSocios, boolean existe, Alert al) {
+    void modificarAeropuerto(String error, String nombre, String pais, String ciudad, String calle, int numero,
+                             int anioInauguracion, int capacidad, boolean esPublico, float financiacion, int numTrabajadores,
+                             int numSocios, boolean existe, Alert al) {
+        existe = validarExistencia(nombre, pais, ciudad, calle, numero, anioInauguracion, capacidad, esPublico,
+                financiacion, numTrabajadores, numSocios, existe);
+        if(!existe&&error.equals("")) {
+            Integer idDireccion=DaoDireccion.conseguirID(pais, ciudad, calle, numero);
+            if(idDireccion==null) {
+                DaoDireccion.aniadir(pais, ciudad, calle, numero);
+                idDireccion=DaoDireccion.conseguirID(pais, ciudad, calle, numero);
+            }
+            Integer idAeropuerto=DaoAeropuerto.conseguirID(nombre, anioInauguracion, capacidad, idDireccion, null);
+            if(idAeropuerto==null) {
+                if(esPublico) {
+                    DaoAeropuerto.modificarPorId(tablaPubli.getSelectionModel().getSelectedItem().getId(), nombre, anioInauguracion, capacidad, idDireccion, null);
+                }else {
+                    DaoAeropuerto.modificarPorId(tablaPriv.getSelectionModel().getSelectedItem().getId(), nombre, anioInauguracion, capacidad, idDireccion, null);
+                }
+                idAeropuerto=DaoAeropuerto.conseguirID(nombre, anioInauguracion, capacidad,idDireccion, null);
+            }
+            if(esPublico) {
+                DaoAeropuertoPublico.modificarPorID(idAeropuerto, financiacion, numTrabajadores);
+                ListaDeAeropuertosController.setListaTodasPublico(DaoAeropuertoPublico.cargarListaAeropuertosPublicos());
+                tablaPubli.refresh();
+            }else {
+                DaoAeropuertoPrivado.modificarPorID(idAeropuerto, numSocios);
+                ListaDeAeropuertosController.setListaTodasPrivado(DaoAeropuertoPrivado.cargarListaAeropuertosPrivados());
+                tablaPriv.refresh();
+            }
+            al.setContentText("Aeropuerto modificado correctamente");
+        }else {
+            if(error.equals("")) {
+                al.setAlertType(AlertType.WARNING);
+                error="La persona ya estaba en la lista";
+            }else {
+                al.setAlertType(AlertType.ERROR);
+            }
+            al.setContentText(error);
+        }
     }
 
     void aniadirAeropuerto(String error, String nombre, String pais, String ciudad, String calle, int numero,

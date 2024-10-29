@@ -70,4 +70,19 @@ public class DaoAeropuertoPublico {
             e.printStackTrace();
         }
     }
+
+    public static void modificarPorID(int id,float financiacion, int numTrabajadores) {
+        conection=ConexionBBDD.getConnection();
+        String update="UPDATE aeropuertos_publicos SET financiacion=?,num_trabajadores=? WHERE id_aeropuerto=?";
+        try {
+            PreparedStatement pstmt;
+            pstmt=conection.prepareStatement(update);
+            pstmt.setFloat(1,financiacion);
+            pstmt.setInt(2,numTrabajadores);
+            pstmt.setInt(3,id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
