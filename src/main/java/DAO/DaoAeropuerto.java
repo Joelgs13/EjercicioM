@@ -1,10 +1,6 @@
 package DAO;
 
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,67 +15,31 @@ public class DaoAeropuerto {
 
     private static Connection connection;
 
-    public static Integer conseguirID(String nombre, int anioInauguracion, int capacidad, int idDireccion, Blob imagen) {
-        connection = ConexionBBDD.getConnection();
-        String select = "SELECT id FROM aeropuertos WHERE nombre=? AND anio_inauguracion=? AND capacidad=? AND id_direccion=?";
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(select);
+    public DaoAeropuerto() throws SQLException {
+    }
+
+    public static int insertarAeropuerto(String nombre, int direccionId, int anioInauguracion, int capacidad, int trabajadores, double financiacion) throws SQLException {
+        String sql = "INSERT INTO aeropuertos (nombre, direccion_id, anio_inauguracion, capacidad, num_trabajadores, financiacion) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ConexionBBDD.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setString(1, nombre);
-            pstmt.setInt(2, anioInauguracion);
-            pstmt.setInt(3, capacidad);
-            pstmt.setInt(4, idDireccion);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id");
+            pstmt.setInt(2, direccionId);
+            pstmt.setInt(3, anioInauguracion);
+            pstmt.setInt(4, capacidad);
+            pstmt.setInt(5, trabajadores);
+            pstmt.setDouble(6, financiacion);
+
+            pstmt.executeUpdate();
+
+            // Obtener el ID generado
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); // Devuelve el ID del aeropuerto
+                } else {
+                    throw new SQLException("No se pudo obtener el ID del aeropuerto.");
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static void aniadir(String nombre, int anioInauguracion, int capacidad, int idDireccion, Blob imagen) {
-        connection = ConexionBBDD.getConnection();
-        String insert = "INSERT INTO aeropuertos (nombre, anio_inauguracion, capacidad, id_direccion, imagen) VALUES (?,?,?,?,?)";
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(insert);
-            pstmt.setString(1, nombre);
-            pstmt.setInt(2, anioInauguracion);
-            pstmt.setInt(3, capacidad);
-            pstmt.setInt(4, idDireccion);
-            pstmt.setBlob(5, imagen);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void modificarPorId(int id, String nombre, int anioInauguracion, int capacidad, int idDireccion, Blob imagen) {
-        connection = ConexionBBDD.getConnection();
-        String update = "UPDATE aeropuertos SET nombre=?, anio_inauguracion=?, capacidad=?, id_direccion=?, imagen=? WHERE id=?";
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(update);
-            pstmt.setString(1, nombre);
-            pstmt.setInt(2, anioInauguracion);
-            pstmt.setInt(3, capacidad);
-            pstmt.setInt(4, idDireccion);
-            pstmt.setBlob(5, imagen);
-            pstmt.setInt(6, id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void eliminar(int id) {
-        connection = ConexionBBDD.getConnection();
-        String delete = "DELETE FROM aeropuertos WHERE id=?";
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(delete);
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -88,6 +48,45 @@ public class DaoAeropuerto {
         lst.addAll(DaoAeropuertoPrivado.cargarListaAeropuertosPrivados());
         lst.addAll(DaoAeropuertoPublico.cargarListaAeropuertosPublicos());
         return lst;
+    }
+
+    public static void aniadir(String nombre,int anioInauguracion,int capacidad,int idDireccion,Blob imagen) {
+        connection=ConexionBBDD.getConnection();
+        String insert="INSERT INTO aeropuertos (nombre,anio_inauguracion,capacidad,id_direccion,imagen) VALUES (?,?,?,?,?)";
+        try {
+            PreparedStatement pstmt;
+            pstmt=connection.prepareStatement(insert);
+            pstmt.setString(1,nombre);
+            pstmt.setInt(2,anioInauguracion);
+            pstmt.setInt(3,capacidad);
+            pstmt.setInt(4,idDireccion);
+            pstmt.setBlob(5,imagen);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Integer conseguirID(String nombre,int anioInauguracion,int capacidad,int idDireccion,Blob imagen) {
+        connection=ConexionBBDD.getConnection();
+        String select="SELECT id FROM aeropuertos WHERE nombre=? AND anio_inauguracion=? AND capacidad=? AND id_direccion=?";
+        //select +=" AND imagen=?";
+        try {
+            PreparedStatement pstmt;
+            pstmt=connection.prepareStatement(select);
+            pstmt.setString(1,nombre);
+            pstmt.setInt(2,anioInauguracion);
+            pstmt.setInt(3,capacidad);
+            pstmt.setInt(4,idDireccion);
+            //pstmt.setBlob(5,imagen);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

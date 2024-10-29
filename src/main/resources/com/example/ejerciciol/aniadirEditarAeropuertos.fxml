@@ -72,7 +72,7 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="tfAñoDeInauguracion" maxWidth="-Infinity" prefHeight="26.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+      <TextField fx:id="tfAnioDeInauguracion" maxWidth="-Infinity" prefHeight="26.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>

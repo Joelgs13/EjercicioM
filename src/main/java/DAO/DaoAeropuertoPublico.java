@@ -33,6 +33,29 @@ public class DaoAeropuertoPublico {
         return lst;
     }
 
+
+    public static void insertarAeropuertoPublico(AeropuertoPublicoModel aeropuertoPublico) throws SQLException {
+        String sql = "INSERT INTO aeropuertos_publicos (nombre, calle, ciudad, pais, numero, anio_inauguracion, capacidad, num_trabajadores, financiacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = ConexionBBDD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Configurar los parámetros de la consulta con los valores del objeto
+            stmt.setString(1, aeropuertoPublico.getNombre());
+            stmt.setString(2, aeropuertoPublico.getDireccion().getCalle());
+            stmt.setString(3, aeropuertoPublico.getDireccion().getCiudad());
+            stmt.setString(4, aeropuertoPublico.getDireccion().getPais());
+            stmt.setInt(5, aeropuertoPublico.getDireccion().getNumero());
+            stmt.setInt(6, aeropuertoPublico.getAnioInauguracion());
+            stmt.setInt(7, aeropuertoPublico.getCapacidad());
+            stmt.setInt(8, aeropuertoPublico.getNumTrabajadores());
+            stmt.setDouble(9, aeropuertoPublico.getFinanciacion());
+
+            // Ejecutar la inserción
+            stmt.executeUpdate();
+        }
+    }
+
     public static void aniadir(int idAeropuerto,float financiacion,int numTrabajadoes) {
         conection=ConexionBBDD.getConnection();
         String insert="INSERT INTO aeropuertos_publicos VALUES (?,?,?)";
@@ -47,32 +70,4 @@ public class DaoAeropuertoPublico {
             e.printStackTrace();
         }
     }
-
-    public static void modificarPorID(int id,float financiacion, int numTrabajadores) {
-        conection=ConexionBBDD.getConnection();
-        String update="UPDATE aeropuertos_publicos SET financiacion=?,num_trabajadores=? WHERE id_aeropuerto=?";
-        try {
-            PreparedStatement pstmt;
-            pstmt=conection.prepareStatement(update);
-            pstmt.setFloat(1,financiacion);
-            pstmt.setInt(2,numTrabajadores);
-            pstmt.setInt(3,id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void eliminar(int id) {
-        conection=ConexionBBDD.getConnection();
-        String delete="DELETE FROM aeropuertos_publicos WHERE id_aeropuerto=?";
-        try {
-            PreparedStatement pstmt=conection.prepareStatement(delete);
-            pstmt.setInt(1,id);
-            pstmt.executeUpdate();
-        }catch(SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -41,12 +41,27 @@ public class DaoAeropuertoPrivado {
         return lst;
     }
 
-    /**
-     * Aniadir.
-     *
-     * @param idAeropuerto the id aeropuerto
-     * @param numSocios the num socios
-     */
+    public static void insertarAeropuertoPrivado(AeropuertoPrivadoModel aeropuertoPrivado) throws SQLException {
+        String sql = "INSERT INTO aeropuertos_privados (nombre, calle, ciudad, pais, numero, anio_inauguracion, capacidad, num_socios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = ConexionBBDD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Configurar los parámetros de la consulta con los valores del objeto
+            stmt.setString(1, aeropuertoPrivado.getNombre());
+            stmt.setString(2, aeropuertoPrivado.getDireccion().getCalle());
+            stmt.setString(3, aeropuertoPrivado.getDireccion().getCiudad());
+            stmt.setString(4, aeropuertoPrivado.getDireccion().getPais());
+            stmt.setInt(5, aeropuertoPrivado.getDireccion().getNumero());
+            stmt.setInt(6, aeropuertoPrivado.getAnioInauguracion());
+            stmt.setInt(7, aeropuertoPrivado.getCapacidad());
+            stmt.setInt(8, aeropuertoPrivado.getNumSocios());
+
+            // Ejecutar la inserción
+            stmt.executeUpdate();
+        }
+    }
+
     public static void aniadir(int idAeropuerto,int numSocios) {
         conection=ConexionBBDD.getConnection();
         String insert="INSERT INTO aeropuertos_privados VALUES (?,?)";
@@ -60,42 +75,4 @@ public class DaoAeropuertoPrivado {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Modificar por ID.
-     *
-     * @param id the id
-     * @param numSocios the num socios
-     */
-    public static void modificarPorID(int id,int numSocios) {
-        conection=ConexionBBDD.getConnection();
-        String update="UPDATE aeropuertos_privados SET numero_socios=? WHERE id_aeropuerto=?";
-        try {
-            PreparedStatement pstmt;
-            pstmt=conection.prepareStatement(update);
-            pstmt.setInt(1, numSocios);
-            pstmt.setInt(2,id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Eliminar.
-     *
-     * @param id the id
-     */
-    public static void eliminar(int id) {
-        conection=ConexionBBDD.getConnection();
-        String delete="DELETE FROM aeropuertos_privados WHERE id_aeropuerto=?";
-        try {
-            PreparedStatement pstmt=conection.prepareStatement(delete);
-            pstmt.setInt(1,id);
-            pstmt.executeUpdate();
-        }catch(SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
