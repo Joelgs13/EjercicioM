@@ -5,8 +5,12 @@ import Model.AeropuertoModel;
 import Model.AvionModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import DAO.DaoAvion;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Controlador para añadir un nuevo avión en la aplicación.
@@ -14,8 +18,9 @@ import DAO.DaoAvion;
  * para crear un nuevo avión y su validación antes de guardarlo
  * en la base de datos.
  */
-public class AniadirAvionController {
+public class AniadirAvionController implements Initializable {
 
+    @FXML public Button btnGuardar;
     @FXML
     private ComboBox<AeropuertoModel> cbAeropuerto; // ComboBox para seleccionar el aeropuerto
 
@@ -130,5 +135,12 @@ public class AniadirAvionController {
     @FXML
     private void initialize() {
         this.cbAeropuerto.setItems(DaoAeropuerto.listaTodas());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (btnGuardar != null) {
+            btnGuardar.setDefaultButton(true); // Establecer el botón Guardar como predeterminado
+        }
     }
 }

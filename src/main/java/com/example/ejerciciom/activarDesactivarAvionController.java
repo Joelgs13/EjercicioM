@@ -5,10 +5,7 @@ import Model.AeropuertoModel;
 import Model.AvionModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import DAO.DaoAvion;
 
 /**
@@ -19,6 +16,7 @@ import DAO.DaoAvion;
  */
 public class activarDesactivarAvionController {
 
+    @FXML public Button btnGuardar;
     @FXML
     private ComboBox<AeropuertoModel> cbAeropuertos; // ComboBox para seleccionar aeropuertos
 
@@ -43,6 +41,10 @@ public class activarDesactivarAvionController {
         this.cbAeropuertos.setItems(DaoAeropuerto.listaTodas());
         rbActivado.setVisible(!ListaDeAeropuertosController.isBorrar());
         rbDesactivado.setVisible(!ListaDeAeropuertosController.isBorrar());
+
+        if (btnGuardar != null) {
+            btnGuardar.setDefaultButton(true); // Establecer el botón Guardar como predeterminado
+        }
     }
 
     /**

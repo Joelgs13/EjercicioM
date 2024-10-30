@@ -35,18 +35,9 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Listener para activar el botón de login al presionar Enter
-        tfPassword.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                btnLogin.fire();  // Simula un clic en el botón Login
-            }
-        });
-
-        tfUsuario.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                tfPassword.requestFocus();  // Mueve el foco al campo de contraseña
-            }
-        });
+        if (btnLogin != null) {
+            btnLogin.setDefaultButton(true); // Establecer el botón Login como predeterminado
+        }
     }
 
     /**

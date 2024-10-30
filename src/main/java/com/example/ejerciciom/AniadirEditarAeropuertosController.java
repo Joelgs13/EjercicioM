@@ -7,6 +7,7 @@ import DAO.DaoAeropuertoPublico;
 import DAO.DaoDireccion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import Model.AeropuertoPrivadoModel;
@@ -14,6 +15,8 @@ import Model.AeropuertoPublicoModel;
 import Model.DireccionModel;
 import javafx.stage.Stage;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
 /**
@@ -21,8 +24,9 @@ import javafx.stage.Stage;
  * Esta clase maneja las interacciones del usuario y la validación de datos
  * tanto para aeropuertos públicos como privados.
  */
-public class AniadirEditarAeropuertosController {
+public class AniadirEditarAeropuertosController implements Initializable {
 
+    @FXML public Button btnGuardar;
     @FXML private Label lbFinanciacion;
 
     @FXML private Label lbNumeroDeSocios;
@@ -521,4 +525,10 @@ public class AniadirEditarAeropuertosController {
         this.tfAnioDeInauguracion.setText(txtAnioInauguracion);
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (btnGuardar != null) {
+            btnGuardar.setDefaultButton(true); // Establecer el botón Guardar como predeterminado
+        }
+    }
 }
