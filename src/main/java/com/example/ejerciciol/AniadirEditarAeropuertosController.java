@@ -15,75 +15,72 @@ import Model.AeropuertoPublicoModel;
 import Model.DireccionModel;
 import javafx.stage.Stage;
 
+
+
+/**
+ * Clase controladora para añadir y editar aeropuertos en la aplicación.
+ * Esta clase maneja las interacciones del usuario y la validación de datos
+ * tanto para aeropuertos públicos como privados.
+ */
 public class AniadirEditarAeropuertosController {
 
-    @FXML
-    private Label lbFinanciacion;
+    @FXML private Label lbFinanciacion;
 
-    @FXML
-    private Label lbNumeroDeSocios;
+    @FXML private Label lbNumeroDeSocios;
 
-    @FXML
-    private Label lbNumeroDeTrabajadores;
+    @FXML private Label lbNumeroDeTrabajadores;
 
-    @FXML
-    private RadioButton rbPrivado;
+    @FXML private RadioButton rbPrivado;
 
-    public RadioButton getRbPublico() {
-        return rbPublico;
-    }
+    public RadioButton getRbPublico() {return rbPublico;}
 
-    public RadioButton getRbPrivado() {
-        return rbPrivado;
-    }
+    public RadioButton getRbPrivado() {return rbPrivado;}
 
-    @FXML
-    private RadioButton rbPublico;
+    @FXML private RadioButton rbPublico;
 
-    @FXML
-    private ToggleGroup rbTipoAeropuerto;
+    @FXML private ToggleGroup rbTipoAeropuerto;
 
-    @FXML
-    private TextField tfAnioDeInauguracion;
+    @FXML private TextField tfAnioDeInauguracion;
 
-    @FXML
-    private TextField tfCalle;
+    @FXML private TextField tfCalle;
 
-    @FXML
-    private TextField tfCapacidad;
+    @FXML private TextField tfCapacidad;
 
-    @FXML
-    private TextField tfCiudad;
+    @FXML private TextField tfCiudad;
 
-    @FXML
-    private TextField tfFinanciacion;
+    @FXML private TextField tfFinanciacion;
 
-    @FXML
-    private TextField tfNombre;
+    @FXML private TextField tfNombre;
 
-    @FXML
-    private TextField tfNumero;
+    @FXML private TextField tfNumero;
 
-    @FXML
-    private TextField tfNumeroDeSocios;
+    @FXML private TextField tfNumeroDeSocios;
 
-    @FXML
-    private TextField tfPais;
+    @FXML private TextField tfPais;
 
-    @FXML
-    private TextField tfTrabajadores;
+    @FXML private TextField tfTrabajadores;
 
     private TableView<AeropuertoPrivadoModel> tablaPriv;
 
     private TableView<AeropuertoPublicoModel> tablaPubli;
 
+
+    /**
+     * Cierra la ventana actual cuando se hace clic en el botón de cancelar.
+     *
+     * @param event El evento de acción que se desencadena al hacer clic en el botón de cancelar.
+     */
     @FXML
     void cancelar(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
-    // Método para mostrar/ocultar campos según el tipo de aeropuerto seleccionado
+    /**
+     * Genera los campos de entrada según el tipo de aeropuerto seleccionado (público/privado).
+     *
+     * @param event El evento de acción que se desencadena al cambiar el tipo de aeropuerto.
+     */
     @FXML
     void generarCampos(ActionEvent event) {
         if (rbPrivado.isSelected()) {
@@ -109,6 +106,12 @@ public class AniadirEditarAeropuertosController {
         }
     }
 
+
+    /**
+     * Guarda los datos del aeropuerto después de validar los campos de entrada.
+     *
+     * @param event El evento de acción que se desencadena al hacer clic en el botón de guardar.
+     */
     @FXML
     void guardar(ActionEvent event) {
         String error="";
@@ -235,7 +238,24 @@ public class AniadirEditarAeropuertosController {
         tablaPubli.getSelectionModel().clearSelection();
         ListaDeAeropuertosController.getS().close();
     }
-
+    /**
+     * Modifica un aeropuerto existente basado en los datos proporcionados.
+     *
+     * @param error             La cadena de mensaje de error para acumular errores de validación.
+     * @param nombre            El nombre del aeropuerto.
+     * @param pais              El país del aeropuerto.
+     * @param ciudad            La ciudad del aeropuerto.
+     * @param calle             La calle del aeropuerto.
+     * @param numero            El número de la calle del aeropuerto.
+     * @param anioInauguracion  El año en que se inauguró el aeropuerto.
+     * @param capacidad         La capacidad del aeropuerto.
+     * @param esPublico         Un booleano que indica si el aeropuerto es público.
+     * @param financiacion      La cantidad de financiación para aeropuertos públicos.
+     * @param numTrabajadores   El número de trabajadores para aeropuertos públicos.
+     * @param numSocios        El número de socios para aeropuertos privados.
+     * @param existe            Un booleano que indica si el aeropuerto ya existe.
+     * @param al                El diálogo de alerta para mostrar mensajes al usuario.
+     */
     void modificarAeropuerto(String error, String nombre, String pais, String ciudad, String calle, int numero,
                              int anioInauguracion, int capacidad, boolean esPublico, float financiacion, int numTrabajadores,
                              int numSocios, boolean existe, Alert al) {
@@ -276,7 +296,24 @@ public class AniadirEditarAeropuertosController {
             al.setContentText(error);
         }
     }
-
+    /**
+     * Añade un nuevo aeropuerto basado en los datos proporcionados.
+     *
+     * @param error             La cadena de mensaje de error para acumular errores de validación.
+     * @param nombre            El nombre del aeropuerto.
+     * @param pais              El país del aeropuerto.
+     * @param ciudad            La ciudad del aeropuerto.
+     * @param calle             La calle del aeropuerto.
+     * @param numero            El número de la calle del aeropuerto.
+     * @param anioInauguracion  El año en que se inauguró el aeropuerto.
+     * @param capacidad         La capacidad del aeropuerto.
+     * @param esPublico         Un booleano que indica si el aeropuerto es público.
+     * @param financiacion      La cantidad de financiación para aeropuertos públicos.
+     * @param numTrabajadores   El número de trabajadores para aeropuertos públicos.
+     * @param numSocios        El número de socios para aeropuertos privados.
+     * @param existe            Un booleano que indica si el aeropuerto ya existe.
+     * @param al                El diálogo de alerta para mostrar mensajes al usuario.
+     */
     void aniadirAeropuerto(String error, String nombre, String pais, String ciudad, String calle, int numero,
                            int anioInauguracion, int capacidad, boolean esPublico, float financiacion, int numTrabajadores,
                            int numSocios, boolean existe, Alert al) {
@@ -314,7 +351,27 @@ public class AniadirEditarAeropuertosController {
         }
     }
 
-
+    /**
+     * Valida si un aeropuerto ya existe en la lista de aeropuertos.
+     *
+     * Este método comprueba si un aeropuerto, dado sus atributos, ya está presente
+     * en la lista de aeropuertos públicos o privados. Se crea una instancia del aeropuerto
+     * según el tipo (público o privado) y se compara con los existentes en las listas correspondientes.
+     *
+     * @param nombre            El nombre del aeropuerto.
+     * @param pais              El país del aeropuerto.
+     * @param ciudad            La ciudad del aeropuerto.
+     * @param calle             La calle del aeropuerto.
+     * @param numero            El número de la calle del aeropuerto.
+     * @param anioInauguracion  El año en que se inauguró el aeropuerto.
+     * @param capacidad         La capacidad del aeropuerto.
+     * @param esPublico         Un booleano que indica si el aeropuerto es público.
+     * @param financiacion      La cantidad de financiación para aeropuertos públicos.
+     * @param numTrabajadores   El número de trabajadores para aeropuertos públicos.
+     * @param numSocios        El número de socios para aeropuertos privados.
+     * @param existe            Un booleano que indica si el aeropuerto ya existe (se pasa por referencia).
+     * @return true si el aeropuerto ya existe en la lista; false en caso contrario.
+     */
     boolean validarExistencia(String nombre, String pais, String ciudad, String calle, int numero, int anioInauguracion,
                               int capacidad, boolean esPublico, float financiacion, int numTrabajadores, int numSocios, boolean existe) {
         if(esPublico) {
@@ -336,10 +393,10 @@ public class AniadirEditarAeropuertosController {
     }
 
     /**
-     * Validar strings.
+     * Valida los campos de tipo cadena para valores vacíos.
      *
-     * @param error the error
-     * @return the string
+     * @param error La cadena de mensaje de error para acumular errores de validación.
+     * @return La cadena de mensaje de error actualizada.
      */
     String validarStrings(String error) {
         if(tfNombre.getText().isEmpty()) {
@@ -357,101 +414,112 @@ public class AniadirEditarAeropuertosController {
         return error;
     }
 
+    /**
+     * Establece la tabla para los aeropuertos privados.
+     *
+     * @param idTablaPrivado La tabla de aeropuertos privados a establecer.
+     */
     public void setTablaPriv(TableView<AeropuertoPrivadoModel> idTablaPrivado) {
         this.tablaPriv = idTablaPrivado;
     }
 
+    /**
+     * Establece la tabla para los aeropuertos públicos.
+     *
+     * @param idTablaPublico La tabla de aeropuertos públicos a establecer.
+     */
     public void setTablaPubli(TableView<AeropuertoPublicoModel> idTablaPublico) {
         this.tablaPubli = idTablaPublico;
     }
 
     /**
-     * Sets the txt calle text.
+     * Establece el texto del campo de la calle.
      *
-     * @param txtCalle the new txt calle text
+     * @param txtCalle El nuevo texto para el campo de la calle.
      */
     public void setTxtCalleText(String txtCalle) {
         this.tfCalle.setText(txtCalle);
     }
 
     /**
-     * Sets the txt capacidad text.
+     * Establece el texto del campo de capacidad.
      *
-     * @param txtCapacidad the new txt capacidad text
+     * @param txtCapacidad El nuevo texto para el campo de capacidad.
      */
     public void setTxtCapacidadText(String txtCapacidad) {
         this.tfCapacidad.setText(txtCapacidad);
     }
 
     /**
-     * Sets the txt ciudad text.
+     * Establece el texto del campo de ciudad.
      *
-     * @param txtCiudad the new txt ciudad text
+     * @param txtCiudad El nuevo texto para el campo de ciudad.
      */
     public void setTxtCiudadText(String txtCiudad) {
         this.tfCiudad.setText(txtCiudad);
     }
 
     /**
-     * Sets the txt financiacion text.
+     * Establece el texto del campo de financiación.
      *
-     * @param txtFinanciacion the new txt financiacion text
+     * @param txtFinanciacion El nuevo texto para el campo de financiación.
      */
     public void setTxtFinanciacionText(String txtFinanciacion) {
         this.tfFinanciacion.setText(txtFinanciacion);
     }
 
     /**
-     * Sets the txt nombre text.
+     * Establece el texto del campo de nombre.
      *
-     * @param txtNombre the new txt nombre text
+     * @param txtNombre El nuevo texto para el campo de nombre.
      */
     public void setTxtNombreText(String txtNombre) {
         this.tfNombre.setText(txtNombre);
     }
 
     /**
-     * Sets the txt num socios text.
+     * Establece el texto del campo de número de socios.
      *
-     * @param txtNumSocios the new txt num socios text
+     * @param txtNumSocios El nuevo texto para el campo de número de socios.
      */
     public void setTxtNumSociosText(String txtNumSocios) {
         this.tfNumeroDeSocios.setText(txtNumSocios);
     }
 
     /**
-     * Sets the txt num trabajadores text.
+     * Establece el texto del campo de número de trabajadores.
      *
-     * @param txtNumTrabajadores the new txt num trabajadores text
+     * @param txtNumTrabajadores El nuevo texto para el campo de número de trabajadores.
      */
     public void setTxtNumTrabajadoresText(String txtNumTrabajadores) {
         this.tfTrabajadores.setText(txtNumTrabajadores);
     }
 
     /**
-     * Sets the txt numero text.
+     * Establece el texto del campo de número.
      *
-     * @param txtNumero the new txt numero text
+     * @param txtNumero El nuevo texto para el campo de número.
      */
     public void setTxtNumeroText(String txtNumero) {
         this.tfNumero.setText(txtNumero);
     }
 
     /**
-     * Sets the txt pais text.
+     * Establece el texto del campo de país.
      *
-     * @param txtPais the new txt pais text
+     * @param txtPais El nuevo texto para el campo de país.
      */
     public void setTxtPaisText(String txtPais) {
         this.tfPais.setText(txtPais);
     }
 
     /**
-     * Sets the txt anio inauguracion text.
+     * Establece el texto del campo de año de inauguración.
      *
-     * @param txtAnioInauguracion the new txt anio inauguracion text
+     * @param txtAnioInauguracion El nuevo texto para el campo de año de inauguración.
      */
     public void setTxtAnioInauguracionText(String txtAnioInauguracion) {
         this.tfAnioDeInauguracion.setText(txtAnioInauguracion);
     }
+
 }

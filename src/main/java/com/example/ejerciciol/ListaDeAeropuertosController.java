@@ -23,6 +23,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
+
+/**
+ * Controlador de la vista que gestiona la lista de aeropuertos.
+ * Proporciona funcionalidad para agregar, editar, eliminar y filtrar aeropuertos,
+ * tanto privados como públicos, así como manejar la interacción con los aviones.
+ */
 public class ListaDeAeropuertosController {
 
     @FXML private ToggleGroup grupoRB;
@@ -98,18 +104,39 @@ public class ListaDeAeropuertosController {
     private static boolean esAniadir;
     private static boolean borrar=true;
 
+    /**
+     * Establece la lista de aeropuertos privados.
+     *
+     * @param listaTodasPrivado la lista de aeropuertos privados que se va a asignar
+     */
     public static void setListaTodasPrivado(ObservableList<AeropuertoPrivadoModel> listaTodasPrivado) {
         ListaDeAeropuertosController.listaTodasPrivado = listaTodasPrivado;
     }
 
+    /**
+     * Establece la lista de aeropuertos públicos.
+     *
+     * @param listaTodasPublico la lista de aeropuertos públicos que se va a asignar
+     */
     public static void setListaTodasPublico(ObservableList<AeropuertoPublicoModel> listaTodasPublico) {
         ListaDeAeropuertosController.listaTodasPublico = listaTodasPublico;
     }
 
+    /**
+     * Devuelve el estado de la variable que indica si se está eliminando un avión.
+     *
+     * @return true si se está en el proceso de eliminación de un avión; false en caso contrario
+     */
     public static boolean isBorrar() {
         return borrar;
     }
 
+
+
+    /**
+     * Inicializa el controlador.
+     * Carga las listas de aeropuertos y establece los valores de las tablas.
+     */
     @FXML
     private void initialize() {
         try {
@@ -146,7 +173,9 @@ public class ListaDeAeropuertosController {
         filtroPrivado=new FilteredList<AeropuertoPrivadoModel>(listaTodasPrivado);
         tablaPriv.setItems(listaTodasPrivado);
     }
-
+    /**
+     * Filtra la lista de aeropuertos según el texto ingresado en el campo de texto.
+     */
     private void filtrarPorNombre() {
         String filtroTexto = tfNombre.getText().toLowerCase();  // Convertir el texto del filtro a minúsculas para hacer una búsqueda no sensible a mayúsculas/minúsculas
 
@@ -172,7 +201,14 @@ public class ListaDeAeropuertosController {
     }
 
 
-    // Métodos de acción del menú
+    /**
+     * Maneja la acción de activar o desactivar un avión.
+     * Este método muestra un nuevo escenario (ventana) donde el usuario puede
+     * activar o desactivar un avión. El título de la ventana cambia dependiendo
+     * de si se está en modo de eliminación o no.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void activarDesactivarAvion(ActionEvent event) {
         borrar=false;
@@ -196,6 +232,15 @@ public class ListaDeAeropuertosController {
         s.showAndWait();
     }
 
+
+    /**
+     * Maneja la acción de añadir un nuevo aeropuerto.
+     * Este método muestra un nuevo escenario (ventana) donde el usuario puede
+     * añadir un aeropuerto. Configura las tablas privadas y públicas y establece
+     * la visibilidad de los botones de opción correspondientes.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void aniadirAeropuerto(ActionEvent event) {
         esAniadir=true;
@@ -224,6 +269,14 @@ public class ListaDeAeropuertosController {
         initialize();
     }
 
+
+    /**
+     * Maneja la acción de añadir un nuevo avión.
+     * Este método muestra un nuevo escenario (ventana) donde el usuario puede
+     * añadir un avión. Se establece el título de la ventana correspondiente.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void aniadirAvion(ActionEvent event) {
         s=new Stage();
@@ -242,6 +295,18 @@ public class ListaDeAeropuertosController {
         s.showAndWait();
     }
 
+
+    /**
+     * Maneja la acción de borrar un aeropuerto seleccionado.
+     * Este método verifica si hay un aeropuerto seleccionado en las tablas
+     * pública o privada y, si es así, muestra una alerta de confirmación
+     * para eliminar el aeropuerto. Si el usuario confirma, se elimina el
+     * aeropuerto de la base de datos y se actualizan las listas y tablas
+     * correspondientes. Si no hay ningún aeropuerto seleccionado, se muestra
+     * un mensaje de error.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void borrarAeropuerto(ActionEvent event) {
         if(tablaPriv.getSelectionModel().getSelectedItem()!=null||tablaPubli.getSelectionModel().getSelectedItem()!=null) {
@@ -275,6 +340,17 @@ public class ListaDeAeropuertosController {
         }
     }
 
+
+    /**
+     * Maneja la acción de editar un aeropuerto seleccionado.
+     * Este método verifica si hay un aeropuerto seleccionado en las tablas
+     * pública o privada y, si es así, muestra un nuevo escenario (ventana)
+     * donde el usuario puede editar la información del aeropuerto. Configura
+     * los campos de texto con los datos del aeropuerto seleccionado. Si no
+     * hay ningún aeropuerto seleccionado, se muestra un mensaje de error.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void editarAeropuerto(ActionEvent event) {
         esAniadir=false;
@@ -303,6 +379,8 @@ public class ListaDeAeropuertosController {
                     controller.setTxtNumTrabajadoresText(modelo.getNumTrabajadores()+"");
                     controller.setTxtPaisText(modelo.getDireccion().getPais());
                 }else {
+                    rbPrivados.setSelected(true);
+                    rbPublicos.setSelected(false);
                     AeropuertoPrivadoModel modelo=tablaPriv.getSelectionModel().getSelectedItem();
                     controller.setTxtAnioInauguracionText(modelo.getAnioInauguracion()+"") ;
                     controller.setTxtCalleText(modelo.getDireccion().getCalle());
@@ -333,6 +411,15 @@ public class ListaDeAeropuertosController {
         initialize();
     }
 
+
+    /**
+     * Maneja la acción de eliminar un avión.
+     * Este método muestra un nuevo escenario (ventana) donde el usuario puede
+     * eliminar un avión. Se establece el título de la ventana correspondiente
+     * para indicar que la acción es eliminar un avión.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void eliminarAvion(ActionEvent event) {
         borrar=true;
@@ -352,92 +439,139 @@ public class ListaDeAeropuertosController {
         s.showAndWait();
     }
 
+    /**
+     * Muestra información detallada sobre el aeropuerto seleccionado.
+     * Si se ha seleccionado un aeropuerto en la tabla pública o privada, se
+     * construye una cadena con la información relevante y se muestra en una
+     * ventana de alerta informativa. La información incluye nombre, país,
+     * dirección, año de inauguración, capacidad, aviones asociados y otros
+     * detalles dependiendo de si es un aeropuerto privado o público.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void informacionAeropuerto(ActionEvent event) {
-        if(tablaPriv.getSelectionModel().getSelectedItem()!=null||tablaPubli.getSelectionModel().getSelectedItem()!=null) {
-            Alert al=new Alert(Alert.AlertType.INFORMATION);
-            al.setHeaderText(null);
-            String str="";
-            if(tablaPriv.getSelectionModel().getSelectedItem()!=null) {
-                AeropuertoPrivadoModel modelo = tablaPriv.getSelectionModel().getSelectedItem();
-                str+="Nombre: "+modelo.getNombre()+"\n";
-                str+="Pais: "+modelo.getDireccion().getPais()+"\n";
-                str+="Direccion: C|"+modelo.getDireccion().getCalle()+" "+modelo.getDireccion().getNumero()+","+modelo.getDireccion().getCiudad()+"\n";
-                str+="Año de inauguracion: "+modelo.getAnioInauguracion()+"\n";
-                str+="Capacidad: "+modelo.getCapacidad()+"\n";
-                str+="Aviones:\n";
-                for(AvionModel avion: DaoAvion.listaAviones(DaoAeropuerto.conseguirID(
-                        modelo.getNombre(),modelo.getAnioInauguracion(),modelo.getCapacidad(),
-                        DaoDireccion.conseguirID(modelo.getDireccion().getPais(),modelo.
-                                        getDireccion().getCiudad(),modelo.getDireccion().getCalle(),
-                                modelo.getDireccion().getNumero()), modelo.getImagen()))) {
-                    str+="\tModelo: "+avion.getModelo()+"\n";
-                    str+="\tNúmero de asientos: "+avion.getNumeroAsientos()+"\n";
-                    str+="\tVelocidad máxima: "+avion.getVelocidadMaxima()+"\n";
-                    if(avion.isActivado()) {
-                        str+="\tActivado\n";
-                    }else {
-                        str+="\tDesactivado\n";
-                    }
-                }
-                str+="Privado\n";
-                str+="Nº de socios: "+modelo.getNumSocios();
+        if (tablaPriv.getSelectionModel().getSelectedItem() != null ||
+                tablaPubli.getSelectionModel().getSelectedItem() != null) {
 
-            }else {
-                AeropuertoPublicoModel modelo=tablaPubli.getSelectionModel().getSelectedItem();
-                str+="Nombre: "+modelo.getNombre()+"\n";
-                str+="Pais: "+modelo.getDireccion().getPais()+"\n";
-                str+="Direccion: "+modelo.getDireccion().getCalle()+" "+modelo.getDireccion().getNumero()+","+modelo.getDireccion().getCiudad()+"\n";
-                str+="Año de inauguracion: "+modelo.getAnioInauguracion()+"\n";
-                str+="Capacidad: "+modelo.getCapacidad()+"\n";
-                str+="Aviones:\n";
-                for(AvionModel avion:DaoAvion.listaAviones(DaoAeropuerto.conseguirID(
-                        modelo.getNombre(),modelo.getAnioInauguracion(),modelo.getCapacidad(),
-                        DaoDireccion.conseguirID(modelo.getDireccion().getPais(),modelo.
-                                        getDireccion().getCiudad(),modelo.getDireccion().getCalle(),
+            Alert al = new Alert(Alert.AlertType.INFORMATION);
+            al.setHeaderText(null);
+            StringBuilder str = new StringBuilder();
+
+            if (tablaPriv.getSelectionModel().getSelectedItem() != null) {
+                AeropuertoPrivadoModel modelo = tablaPriv.getSelectionModel().getSelectedItem();
+                str.append("Nombre: ").append(modelo.getNombre()).append("\n");
+                str.append("Pais: ").append(modelo.getDireccion().getPais()).append("\n");
+                str.append("Direccion: C|").append(modelo.getDireccion().getCalle())
+                        .append(" ").append(modelo.getDireccion().getNumero()).append(", ")
+                        .append(modelo.getDireccion().getCiudad()).append("\n");
+                str.append("Año de inauguracion: ").append(modelo.getAnioInauguracion()).append("\n");
+                str.append("Capacidad: ").append(modelo.getCapacidad()).append("\n");
+                str.append("Aviones:\n");
+
+                for (AvionModel avion : DaoAvion.listaAviones(DaoAeropuerto.conseguirID(
+                        modelo.getNombre(), modelo.getAnioInauguracion(), modelo.getCapacidad(),
+                        DaoDireccion.conseguirID(modelo.getDireccion().getPais(),
+                                modelo.getDireccion().getCiudad(), modelo.getDireccion().getCalle(),
                                 modelo.getDireccion().getNumero()), modelo.getImagen()))) {
-                    str+="\tModelo: "+avion.getModelo()+"\n";
-                    str+="\tNúmero de asientos: "+avion.getNumeroAsientos()+"\n";
-                    str+="\tVelocidad máxima: "+avion.getVelocidadMaxima()+"\n";
-                    if(avion.isActivado()) {
-                        str+="\tActivado\n";
-                    }else {
-                        str+="\tDesactivado\n";
-                    }
+
+                    str.append("\tModelo: ").append(avion.getModelo()).append("\n");
+                    str.append("\tNúmero de asientos: ").append(avion.getNumeroAsientos()).append("\n");
+                    str.append("\tVelocidad máxima: ").append(avion.getVelocidadMaxima()).append("\n");
+                    str.append("\t").append(avion.isActivado() ? "Activado" : "Desactivado").append("\n");
                 }
-                str+="Público\n";
-                str+="Financiacion: "+modelo.getFinanciacion()+"\n";
-                str+="Número de trabajadores: "+modelo.getNumTrabajadores();
+                str.append("Privado\n");
+                str.append("Nº de socios: ").append(modelo.getNumSocios());
+
+            } else {
+                AeropuertoPublicoModel modelo = tablaPubli.getSelectionModel().getSelectedItem();
+                str.append("Nombre: ").append(modelo.getNombre()).append("\n");
+                str.append("Pais: ").append(modelo.getDireccion().getPais()).append("\n");
+                str.append("Direccion: ").append(modelo.getDireccion().getCalle())
+                        .append(" ").append(modelo.getDireccion().getNumero()).append(", ")
+                        .append(modelo.getDireccion().getCiudad()).append("\n");
+                str.append("Año de inauguracion: ").append(modelo.getAnioInauguracion()).append("\n");
+                str.append("Capacidad: ").append(modelo.getCapacidad()).append("\n");
+                str.append("Aviones:\n");
+
+                for (AvionModel avion : DaoAvion.listaAviones(DaoAeropuerto.conseguirID(
+                        modelo.getNombre(), modelo.getAnioInauguracion(), modelo.getCapacidad(),
+                        DaoDireccion.conseguirID(modelo.getDireccion().getPais(),
+                                modelo.getDireccion().getCiudad(), modelo.getDireccion().getCalle(),
+                                modelo.getDireccion().getNumero()), modelo.getImagen()))) {
+
+                    str.append("\tModelo: ").append(avion.getModelo()).append("\n");
+                    str.append("\tNúmero de asientos: ").append(avion.getNumeroAsientos()).append("\n");
+                    str.append("\tVelocidad máxima: ").append(avion.getVelocidadMaxima()).append("\n");
+                    str.append("\t").append(avion.isActivado() ? "Activado" : "Desactivado").append("\n");
+                }
+                str.append("Público\n");
+                str.append("Financiacion: ").append(modelo.getFinanciacion()).append("\n");
+                str.append("Número de trabajadores: ").append(modelo.getNumTrabajadores());
             }
-            al.setContentText(str);
+
+            al.setContentText(str.toString());
             al.showAndWait();
         }
     }
 
+
+    /**
+     * Carga y muestra la tabla correspondiente a aeropuertos públicos o privados
+     * según la selección del usuario. Si el botón de radio de aeropuertos públicos
+     * está seleccionado, se muestra la tabla pública; de lo contrario, se muestra
+     * la tabla privada.
+     *
+     * @param actionEvent el evento de acción que activa este método
+     */
     public void cargarTabla(ActionEvent actionEvent) {
-        esPublico=rbPublicos.isSelected();
-        if(rbPublicos.isSelected()) {
+        esPublico = rbPublicos.isSelected();
+        if (rbPublicos.isSelected()) {
             tablaPubli.setVisible(true);
             tablaPriv.setVisible(false);
-        }else {
+        } else {
             tablaPubli.setVisible(false);
-            tablaPriv.setVisible(true);;
+            tablaPriv.setVisible(true);
         }
     }
 
+    /**
+     * Devuelve la lista de todos los aeropuertos privados.
+     *
+     * @return una ObservableList de AeropuertoPrivadoModel que contiene
+     *         todos los aeropuertos privados.
+     */
     public static ObservableList<AeropuertoPrivadoModel> getListaTodasPrivado() {
         return listaTodasPrivado;
     }
 
+    /**
+     * Devuelve la lista de todos los aeropuertos públicos.
+     *
+     * @return una ObservableList de AeropuertoPublicoModel que contiene
+     *         todos los aeropuertos públicos.
+     */
     public static ObservableList<AeropuertoPublicoModel> getListaTodasPublico() {
         return listaTodasPublico;
     }
 
+    /**
+     * Devuelve la instancia actual de la ventana (Stage) utilizada por
+     * la aplicación.
+     *
+     * @return el Stage actual que representa la ventana principal de la aplicación.
+     */
     public static Stage getS() {
         return s;
     }
 
+    /**
+     * Indica si se está en el modo de añadir un nuevo aeropuerto.
+     *
+     * @return true si se está añadiendo un aeropuerto, false en caso contrario.
+     */
     public static boolean isEsAniadir() {
         return esAniadir;
     }
+
 }

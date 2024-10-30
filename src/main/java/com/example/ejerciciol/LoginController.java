@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controlador para la pantalla de inicio de sesión. Gestiona la autenticación
+ * del usuario y la transición a la pantalla de lista de aeropuertos.
+ */
 public class LoginController {
 
     @FXML
@@ -25,6 +29,14 @@ public class LoginController {
     @FXML
     private TextField tfUsuario;
 
+    /**
+     * Método que se ejecuta cuando se presiona el botón de inicio de sesión.
+     * Comprueba si el usuario y la contraseña son correctos. Si son válidos,
+     * carga la pantalla de lista de aeropuertos; de lo contrario, muestra un
+     * mensaje de error.
+     *
+     * @param event el evento de acción que activa este método
+     */
     @FXML
     void login(ActionEvent event) {
         String usuario = tfUsuario.getText();
@@ -43,6 +55,12 @@ public class LoginController {
         }
     }
 
+    /**
+     * Muestra una alerta con el título y el mensaje especificados.
+     *
+     * @param title   el título de la alerta
+     * @param message el mensaje a mostrar en la alerta
+     */
     private void mostrarAlerta(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -51,6 +69,11 @@ public class LoginController {
         alert.showAndWait();
     }
 
+    /**
+     * Carga la pantalla de lista de aeropuertos. Cambia la escena actual
+     * a la nueva pantalla y maneja cualquier excepción que ocurra durante
+     * el proceso de carga.
+     */
     private void loadAeropuertosScreen() {
         try {
             // Cargar la nueva pantalla
