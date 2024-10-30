@@ -70,4 +70,35 @@ public class DaoAvion {
             e.printStackTrace();
         }
     }
+
+    public static void update(String modelo, int idAeropuerto, boolean estado) {
+        conection=ConexionBBDD.getConnection();
+        String update="UPDATE aviones SET activado=? WHERE modelo=? AND id_aeropuerto=?";
+        try {
+            PreparedStatement pstmt = conection.prepareStatement(update);
+            if(estado) {
+                pstmt.setInt(1,1);
+            }else {
+                pstmt.setInt(1,0);
+            }
+            pstmt.setString(2,modelo);
+            pstmt.setInt(3,idAeropuerto);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void delete(String modelo, int idAeropuerto) {
+        conection=ConexionBBDD.getConnection();
+        String delete="DELETE FROM aviones WHERE modelo=? AND id_aeropuerto=?";
+        try {
+            PreparedStatement pstmt = conection.prepareStatement(delete);
+            pstmt.setString(1, modelo);
+            pstmt.setInt(2,idAeropuerto);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

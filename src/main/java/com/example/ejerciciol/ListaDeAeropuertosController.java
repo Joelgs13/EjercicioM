@@ -128,6 +128,7 @@ public class ListaDeAeropuertosController {
     private boolean esPublico = true;
     private static Stage s;
     private static boolean esAniadir;
+    private static boolean borrar=true;
 
     public static void setListaTodasPrivado(ObservableList<AeropuertoPrivadoModel> listaTodasPrivado) {
         ListaDeAeropuertosController.listaTodasPrivado = listaTodasPrivado;
@@ -135,6 +136,10 @@ public class ListaDeAeropuertosController {
 
     public static void setListaTodasPublico(ObservableList<AeropuertoPublicoModel> listaTodasPublico) {
         ListaDeAeropuertosController.listaTodasPublico = listaTodasPublico;
+    }
+
+    public static boolean isBorrar() {
+        return borrar;
     }
 
     @FXML
@@ -210,7 +215,25 @@ public class ListaDeAeropuertosController {
     // Métodos de acción del menú
     @FXML
     void activarDesactivarAvion(ActionEvent event) {
-        // Lógica para activar o desactivar un avión
+        borrar=false;
+        s=new Stage();
+        Scene scene;
+        try {
+            FXMLLoader controlador = new FXMLLoader(HelloApplication.class.getResource("activarDesactivarAvion.fxml"));
+            scene = new Scene(controlador.load());
+            if (ListaDeAeropuertosController.isBorrar()){
+                s.setTitle("ELIMINAR AVION");
+            } else {
+                s.setTitle("ACTIVAR / DESACTIVAR AVION");
+            }
+            s.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        s.setResizable(false);
+        s.initOwner(HelloApplication.getStage());
+        s.initModality(javafx.stage.Modality.WINDOW_MODAL);
+        s.showAndWait();
     }
 
     @FXML
@@ -317,7 +340,7 @@ public class ListaDeAeropuertosController {
 
     @FXML
     void eliminarAvion(ActionEvent event) {
-        // Lógica para eliminar un avión
+
     }
 
     @FXML
