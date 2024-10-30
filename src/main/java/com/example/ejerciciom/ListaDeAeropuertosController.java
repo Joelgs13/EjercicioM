@@ -150,6 +150,21 @@ public class ListaDeAeropuertosController {
             e.printStackTrace();
         }
         tfNombre.setOnKeyReleased(event -> filtrarPorNombre());
+
+        // Configurar el evento de doble clic en la tabla privada
+        tablaPriv.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Doble clic
+                informacionAeropuerto(null); // Llamamos a la función con un evento nulo
+            }
+        });
+
+        // Configurar el evento de doble clic en la tabla pública
+        tablaPubli.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Doble clic
+                informacionAeropuerto(null); // Llamamos a la función con un evento nulo
+            }
+        });
+
         //Tabla publico
         listaTodasPublico= DaoAeropuertoPublico.cargarListaAeropuertosPublicos();
         tablaPubli.setItems(listaTodasPublico);
