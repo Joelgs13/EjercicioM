@@ -154,33 +154,25 @@ public class ListaDeAeropuertosController {
         listaTodasPublico= DaoAeropuertoPublico.cargarListaAeropuertosPublicos();
         tablaPubli.setItems(listaTodasPublico);
         tcAnioPublico.setCellValueFactory(new PropertyValueFactory<>("anioInauguracion"));
-        tcCallePublico.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getCalle()));
+        tcCallePublico.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDireccion().getCalle()));
         tcCapacidadPublico.setCellValueFactory(new PropertyValueFactory<>("capacidad"));
-        tcCiudadPublico.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getCiudad()));
+        tcCiudadPublico.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDireccion().getCiudad()));
         tcFinanciacion.setCellValueFactory(new PropertyValueFactory<>("financiacion"));
         tcIdPublico.setCellValueFactory(new PropertyValueFactory<>("id"));
         tcNombrePublico.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        tcNumeroPublico.setCellValueFactory(cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getDireccion().getNumero()).asObject());
-        tcPaisPublico.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
+        tcNumeroPublico.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDireccion().getNumero()).asObject());
+        tcPaisPublico.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
         tcNumeroTrabajadores.setCellValueFactory(new PropertyValueFactory<>("numTrabajadores"));
         filtroPublico=new FilteredList<AeropuertoPublicoModel>(listaTodasPublico);
         //Tabla privado
         tcAnioPrivado.setCellValueFactory(new PropertyValueFactory<>("anioInauguracion"));
-        tcCallePrivado.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getCalle()));
+        tcCallePrivado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDireccion().getCalle()));
         tcCapacidadPrivado.setCellValueFactory(new PropertyValueFactory<>("capacidad"));
-        tcCiudadPrivado.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getCiudad()));
+        tcCiudadPrivado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDireccion().getCiudad()));
         tcIdPrivado.setCellValueFactory(new PropertyValueFactory<>("id"));
         tcNombrePrivado.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        tcNumeroPrivado.setCellValueFactory(cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getDireccion().getNumero()).asObject());
-        tcPaisPrivado.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
+        tcNumeroPrivado.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDireccion().getNumero()).asObject());
+        tcPaisPrivado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDireccion().getPais()));
         tcNumeroSocios.setCellValueFactory(new PropertyValueFactory<>("numSocios"));
         listaTodasPrivado= DaoAeropuertoPrivado.cargarListaAeropuertosPrivados();
         filtroPrivado=new FilteredList<AeropuertoPrivadoModel>(listaTodasPrivado);
@@ -281,7 +273,34 @@ public class ListaDeAeropuertosController {
 
     @FXML
     void borrarAeropuerto(ActionEvent event) {
-        // Lógica para borrar un aeropuerto
+        if(tablaPriv.getSelectionModel().getSelectedItem()!=null||tablaPubli.getSelectionModel().getSelectedItem()!=null) {
+            Alert al=new Alert(Alert.AlertType.CONFIRMATION);
+            al.setHeaderText(null);
+            if(tablaPriv.getSelectionModel().getSelectedItem()!=null||tablaPubli.getSelectionModel().getSelectedItem()!=null) {
+                al.setContentText("¿Estas seguro de que quieres borrar ese aeropuerto?");
+                al.showAndWait();
+                if(al.getResult().getButtonData().name().equals("OK_DONE")) {
+                    if(esPublico) {
+                        DaoAeropuertoPublico.eliminar(tablaPubli.getSelectionModel().getSelectedItem().getId());
+                        DaoAeropuerto.eliminar(tablaPubli.getSelectionModel().getSelectedItem().getId());
+                        listaTodasPublico=DaoAeropuertoPublico.cargarListaAeropuertosPublicos();
+                        filtrarPorNombre();
+                        tablaPubli.refresh();
+                    }else {
+                        DaoAeropuertoPrivado.eliminar(tablaPriv.getSelectionModel().getSelectedItem().getId());
+                        DaoAeropuerto.eliminar(tablaPriv.getSelectionModel().getSelectedItem().getId());
+                        listaTodasPrivado=DaoAeropuertoPrivado.cargarListaAeropuertosPrivados();
+                        filtrarPorNombre();
+                        tablaPriv.refresh();
+                    }
+                }
+            }
+        }else {
+            Alert al=new Alert(Alert.AlertType.ERROR);
+            al.setHeaderText(null);
+            al.setContentText("No hay ninguno seleccionado, asi que no se puede eliminar ninguno");
+            al.showAndWait();
+        }
     }
 
     @FXML

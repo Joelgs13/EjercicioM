@@ -85,4 +85,16 @@ public class DaoAeropuertoPublico {
             e.printStackTrace();
         }
     }
+
+    public static void eliminar(int id) {
+        conection=ConexionBBDD.getConnection();
+        String delete="DELETE FROM aeropuertos_publicos WHERE id_aeropuerto=?";
+        try {
+            PreparedStatement pstmt=conection.prepareStatement(delete);
+            pstmt.setInt(1,id);
+            pstmt.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
