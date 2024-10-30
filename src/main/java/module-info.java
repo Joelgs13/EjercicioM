@@ -4,9 +4,9 @@ module com.example.ejerciciol {
     requires java.sql;
 
 
-    opens com.example.ejerciciol to javafx.fxml;
+    opens com.example.ejerciciom to javafx.fxml;
     opens Model to javafx.base;
 
-    exports com.example.ejerciciol;
+    exports com.example.ejerciciom;
     exports Model;
 }

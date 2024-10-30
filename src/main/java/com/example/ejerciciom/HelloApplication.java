@@ -1,4 +1,4 @@
-package com.example.ejerciciol;
+package com.example.ejerciciom;
 
 import BBDD.ConexionBBDD;
 import javafx.application.Application;

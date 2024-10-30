@@ -1,4 +1,4 @@
-package com.example.ejerciciol;
+package com.example.ejerciciom;
 
 import DAO.DaoAeropuerto;
 import Model.AeropuertoModel;
