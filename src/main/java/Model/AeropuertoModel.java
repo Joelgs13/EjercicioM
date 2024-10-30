@@ -15,6 +15,8 @@ public class AeropuertoModel {
      int capacidad; // Capacidad del aeropuerto
      DireccionModel direccion; // Dirección del aeropuerto
      Blob imagen; // Imagen del aeropuerto
+    // Otros campos
+
 
     /**
      * Constructor de la clase AeropuertoModel.
@@ -43,6 +45,9 @@ public class AeropuertoModel {
     public int getCapacidad() { return capacidad; }
     public DireccionModel getDireccion() { return direccion; }
     public Blob getImagen() { return imagen; }
+    public void setImagen(Blob imagen) {
+        this.imagen = imagen;
+    }
 
     @Override
     public boolean equals(Object obj) {

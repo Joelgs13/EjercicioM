@@ -5,6 +5,7 @@ import DAO.DaoAeropuerto;
 import DAO.DaoAeropuertoPrivado;
 import DAO.DaoAeropuertoPublico;
 import DAO.DaoDireccion;
+import Model.AeropuertoModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,11 +14,19 @@ import javafx.scene.control.Alert.AlertType;
 import Model.AeropuertoPrivadoModel;
 import Model.AeropuertoPublicoModel;
 import Model.DireccionModel;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
-
+import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
+import javax.sql.rowset.serial.SerialBlob;
 
 /**
  * Clase controladora para añadir y editar aeropuertos en la aplicación.
@@ -29,6 +38,7 @@ public class AniadirEditarAeropuertosController implements Initializable {
     @FXML public Button btnGuardar;
     @FXML public Button btnCancelar;
     @FXML private Label lbFinanciacion;
+    @FXML private Blob imagenBlob;
 
     @FXML private Label lbNumeroDeSocios;
 
@@ -274,11 +284,11 @@ public class AniadirEditarAeropuertosController implements Initializable {
             Integer idAeropuerto=DaoAeropuerto.conseguirID(nombre, anioInauguracion, capacidad, idDireccion, null);
             if(idAeropuerto==null) {
                 if(esPublico) {
-                    DaoAeropuerto.modificarPorId(tablaPubli.getSelectionModel().getSelectedItem().getId(), nombre, anioInauguracion, capacidad, idDireccion, null);
+                    DaoAeropuerto.modificarPorId(tablaPubli.getSelectionModel().getSelectedItem().getId(), nombre, anioInauguracion, capacidad, idDireccion, imagenBlob);
                 }else {
-                    DaoAeropuerto.modificarPorId(tablaPriv.getSelectionModel().getSelectedItem().getId(), nombre, anioInauguracion, capacidad, idDireccion, null);
+                    DaoAeropuerto.modificarPorId(tablaPriv.getSelectionModel().getSelectedItem().getId(), nombre, anioInauguracion, capacidad, idDireccion, imagenBlob);
                 }
-                idAeropuerto=DaoAeropuerto.conseguirID(nombre, anioInauguracion, capacidad,idDireccion, null);
+                idAeropuerto=DaoAeropuerto.conseguirID(nombre, anioInauguracion, capacidad,idDireccion, imagenBlob);
             }
             if(esPublico) {
                 DaoAeropuertoPublico.modificarPorID(idAeropuerto, financiacion, numTrabajadores);
@@ -533,6 +543,43 @@ public class AniadirEditarAeropuertosController implements Initializable {
         }
         if (btnCancelar != null) {
             btnCancelar.setCancelButton(true); // Establecer el botón Cancelar como botón de tipo cancel
+        }
+    }
+
+
+    @FXML
+    void cargarImagen(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Imagen del Aeropuerto");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.gif")
+        );
+
+        File file = fileChooser.showOpenDialog(null); // Cambia null por la ventana principal si es necesario
+        if (file != null) {
+            try (FileInputStream fis = new FileInputStream(file)) {
+                // Leer todos los bytes del InputStream y crear un Blob
+                byte[] imageBytes = fis.readAllBytes();
+                imagenBlob = new SerialBlob(imageBytes); // Asignar el Blob a la variable local
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Imagen cargada correctamente");
+                alert.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Manejo de errores
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Error al cargar la imagen");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Manejo de errores para la base de datos
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Error al crear el Blob");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
         }
     }
 }

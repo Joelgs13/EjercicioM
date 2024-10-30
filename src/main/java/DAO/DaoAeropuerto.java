@@ -59,6 +59,21 @@ public class DaoAeropuerto {
             }
         }
     }
+    public static void agregarAeropuerto(AeropuertoModel aeropuerto) {
+
+        String sql = "INSERT INTO aeropuerto (nombre, direccion, imagen) VALUES (?, ?, ?)";
+        try (Connection connection = ConexionBBDD.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, aeropuerto.getNombre());
+            ps.setString(2, aeropuerto.getDireccion().toString()); // Ajusta según sea necesario
+            ps.setBlob(3, aeropuerto.getImagen()); // Guardar imagen
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de errores
+        }
+    }
+
 
     /**
      * Carga una lista de todos los aeropuertos, tanto privados como públicos.
