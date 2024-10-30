@@ -241,6 +241,8 @@ public class ListaDeAeropuertosController {
             AniadirEditarAeropuertosController controller = controlador.getController();
             controller.setTablaPriv(tablaPriv);
             controller.setTablaPubli(tablaPubli);
+            controller.getRbPublico().setVisible(true);
+            controller.getRbPrivado().setVisible(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -251,6 +253,7 @@ public class ListaDeAeropuertosController {
         filtrarPorNombre();
         tablaPubli.refresh();
         tablaPriv.refresh();
+        initialize();
     }
 
     @FXML
@@ -295,6 +298,7 @@ public class ListaDeAeropuertosController {
                     }
                 }
             }
+            initialize();
         }else {
             Alert al=new Alert(Alert.AlertType.ERROR);
             al.setHeaderText(null);
@@ -316,7 +320,9 @@ public class ListaDeAeropuertosController {
                 s.setScene(scene);
                 AniadirEditarAeropuertosController controller = controlador.getController();
                 controller.setTablaPriv(tablaPriv);
-                controller.setTablaPubli(tablaPubli);
+                controller.setTablaPubli(tablaPubli);;
+                controller.getRbPublico().setVisible(false);
+                controller.getRbPrivado().setVisible(false);
                 if(esPublico) {
                     AeropuertoPublicoModel modelo=tablaPubli.getSelectionModel().getSelectedItem();
                     controller.setTxtAnioInauguracionText(modelo.getAnioInauguracion()+"") ;
@@ -349,12 +355,14 @@ public class ListaDeAeropuertosController {
             filtrarPorNombre();
             tablaPriv.refresh();
             tablaPubli.refresh();
+
         }else {
             Alert al=new Alert(Alert.AlertType.ERROR);
             al.setHeaderText(null);
             al.setContentText("NINGUN AEROPUERTO SELECCIONADO");
             al.showAndWait();
         }
+        initialize();
     }
 
     @FXML

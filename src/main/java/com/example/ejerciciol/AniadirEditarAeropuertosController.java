@@ -29,6 +29,14 @@ public class AniadirEditarAeropuertosController {
     @FXML
     private RadioButton rbPrivado;
 
+    public RadioButton getRbPublico() {
+        return rbPublico;
+    }
+
+    public RadioButton getRbPrivado() {
+        return rbPrivado;
+    }
+
     @FXML
     private RadioButton rbPublico;
 
