@@ -11,6 +11,11 @@ import Model.AeropuertoModel;
 import Model.AeropuertoPrivadoModel;
 import Model.AeropuertoPublicoModel;
 
+/**
+ * Clase de acceso a datos para la entidad Aeropuerto. Proporciona métodos para
+ * realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en la base de datos
+ * relacionada con los aeropuertos.
+ */
 public class DaoAeropuerto {
 
     private static Connection connection;
@@ -18,6 +23,18 @@ public class DaoAeropuerto {
     public DaoAeropuerto() throws SQLException {
     }
 
+    /**
+     * Inserta un nuevo aeropuerto en la base de datos.
+     *
+     * @param nombre             el nombre del aeropuerto
+     * @param direccionId       el ID de la dirección asociada al aeropuerto
+     * @param anioInauguracion  el año de inauguración del aeropuerto
+     * @param capacidad         la capacidad del aeropuerto
+     * @param trabajadores       el número de trabajadores del aeropuerto
+     * @param financiacion       la financiación del aeropuerto
+     * @return el ID del nuevo aeropuerto insertado
+     * @throws SQLException si hay un error durante la inserción en la base de datos
+     */
     public static int insertarAeropuerto(String nombre, int direccionId, int anioInauguracion, int capacidad, int trabajadores, double financiacion) throws SQLException {
         String sql = "INSERT INTO aeropuertos (nombre, direccion_id, anio_inauguracion, capacidad, num_trabajadores, financiacion) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBBDD.getConnection();
@@ -43,6 +60,11 @@ public class DaoAeropuerto {
         }
     }
 
+    /**
+     * Carga una lista de todos los aeropuertos, tanto privados como públicos.
+     *
+     * @return una lista observable de modelos de aeropuertos
+     */
     public static ObservableList<AeropuertoModel> listaTodas() {
         ObservableList<AeropuertoModel> lst = FXCollections.observableArrayList();
         lst.addAll(DaoAeropuertoPrivado.cargarListaAeropuertosPrivados());
@@ -50,35 +72,52 @@ public class DaoAeropuerto {
         return lst;
     }
 
-    public static void aniadir(String nombre,int anioInauguracion,int capacidad,int idDireccion,Blob imagen) {
-        connection=ConexionBBDD.getConnection();
-        String insert="INSERT INTO aeropuertos (nombre,anio_inauguracion,capacidad,id_direccion,imagen) VALUES (?,?,?,?,?)";
+    /**
+     * Inserta un nuevo aeropuerto en la base de datos con los detalles especificados.
+     *
+     * @param nombre             el nombre del aeropuerto
+     * @param anioInauguracion  el año de inauguración del aeropuerto
+     * @param capacidad         la capacidad del aeropuerto
+     * @param idDireccion       el ID de la dirección asociada al aeropuerto
+     * @param imagen            la imagen del aeropuerto en forma de Blob
+     */
+    public static void aniadir(String nombre, int anioInauguracion, int capacidad, int idDireccion, Blob imagen) {
+        connection = ConexionBBDD.getConnection();
+        String insert = "INSERT INTO aeropuertos (nombre, anio_inauguracion, capacidad, id_direccion, imagen) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement pstmt;
-            pstmt=connection.prepareStatement(insert);
-            pstmt.setString(1,nombre);
-            pstmt.setInt(2,anioInauguracion);
-            pstmt.setInt(3,capacidad);
-            pstmt.setInt(4,idDireccion);
-            pstmt.setBlob(5,imagen);
+            pstmt = connection.prepareStatement(insert);
+            pstmt.setString(1, nombre);
+            pstmt.setInt(2, anioInauguracion);
+            pstmt.setInt(3, capacidad);
+            pstmt.setInt(4, idDireccion);
+            pstmt.setBlob(5, imagen);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static Integer conseguirID(String nombre,int anioInauguracion,int capacidad,int idDireccion,Blob imagen) {
-        connection=ConexionBBDD.getConnection();
-        String select="SELECT id FROM aeropuertos WHERE nombre=? AND anio_inauguracion=? AND capacidad=? AND id_direccion=?";
-        //select +=" AND imagen=?";
+    /**
+     * Obtiene el ID de un aeropuerto específico a partir de sus atributos.
+     *
+     * @param nombre             el nombre del aeropuerto
+     * @param anioInauguracion  el año de inauguración del aeropuerto
+     * @param capacidad         la capacidad del aeropuerto
+     * @param idDireccion       el ID de la dirección asociada al aeropuerto
+     * @param imagen            la imagen del aeropuerto en forma de Blob
+     * @return el ID del aeropuerto, o null si no se encuentra
+     */
+    public static Integer conseguirID(String nombre, int anioInauguracion, int capacidad, int idDireccion, Blob imagen) {
+        connection = ConexionBBDD.getConnection();
+        String select = "SELECT id FROM aeropuertos WHERE nombre=? AND anio_inauguracion=? AND capacidad=? AND id_direccion=?";
         try {
             PreparedStatement pstmt;
-            pstmt=connection.prepareStatement(select);
-            pstmt.setString(1,nombre);
-            pstmt.setInt(2,anioInauguracion);
-            pstmt.setInt(3,capacidad);
-            pstmt.setInt(4,idDireccion);
-            //pstmt.setBlob(5,imagen);
+            pstmt = connection.prepareStatement(select);
+            pstmt.setString(1, nombre);
+            pstmt.setInt(2, anioInauguracion);
+            pstmt.setInt(3, capacidad);
+            pstmt.setInt(4, idDireccion);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt("id");
@@ -89,33 +128,47 @@ public class DaoAeropuerto {
         return null;
     }
 
-    public static void modificarPorId(int id,String nombre,int anioInauguracion,int capacidad,int idDireccion,Blob imagen) {
-        connection=ConexionBBDD.getConnection();
-        String update="UPDATE aeropuertos SET nombre=?,anio_inauguracion=?,capacidad=?,id_direccion=?,imagen=? WHERE id=?";
+    /**
+     * Modifica los detalles de un aeropuerto existente en la base de datos.
+     *
+     * @param id                el ID del aeropuerto a modificar
+     * @param nombre            el nuevo nombre del aeropuerto
+     * @param anioInauguracion  el nuevo año de inauguración del aeropuerto
+     * @param capacidad         la nueva capacidad del aeropuerto
+     * @param idDireccion       el nuevo ID de la dirección asociada al aeropuerto
+     * @param imagen            la nueva imagen del aeropuerto en forma de Blob
+     */
+    public static void modificarPorId(int id, String nombre, int anioInauguracion, int capacidad, int idDireccion, Blob imagen) {
+        connection = ConexionBBDD.getConnection();
+        String update = "UPDATE aeropuertos SET nombre=?, anio_inauguracion=?, capacidad=?, id_direccion=?, imagen=? WHERE id=?";
         try {
-            PreparedStatement pstmt=connection.prepareStatement(update);
-            pstmt.setString(1,nombre);
-            pstmt.setInt(2,anioInauguracion);
-            pstmt.setInt(3,capacidad);
-            pstmt.setInt(4,idDireccion);
-            pstmt.setBlob(5,imagen);
-            pstmt.setInt(6,id);
+            PreparedStatement pstmt = connection.prepareStatement(update);
+            pstmt.setString(1, nombre);
+            pstmt.setInt(2, anioInauguracion);
+            pstmt.setInt(3, capacidad);
+            pstmt.setInt(4, idDireccion);
+            pstmt.setBlob(5, imagen);
+            pstmt.setInt(6, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Elimina un aeropuerto de la base de datos basado en su ID.
+     *
+     * @param id el ID del aeropuerto a eliminar
+     */
     public static void eliminar(int id) {
-        connection=ConexionBBDD.getConnection();
-        String delete="DELETE FROM aeropuertos WHERE id=?";
+        connection = ConexionBBDD.getConnection();
+        String delete = "DELETE FROM aeropuertos WHERE id=?";
         try {
-            PreparedStatement pstmt=connection.prepareStatement(delete);
-            pstmt.setInt(1,id);
+            PreparedStatement pstmt = connection.prepareStatement(delete);
+            pstmt.setInt(1, id);
             pstmt.executeUpdate();
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 }
-

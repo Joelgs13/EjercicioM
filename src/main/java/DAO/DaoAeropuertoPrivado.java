@@ -11,27 +11,29 @@ import javafx.collections.ObservableList;
 import Model.AeropuertoPrivadoModel;
 
 /**
- * Clase DaoAeropuertoPrivado.
+ * Clase de acceso a datos para la entidad Aeropuerto Privado.
+ * Proporciona métodos para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * en la base de datos relacionada con los aeropuertos privados.
  */
 public class DaoAeropuertoPrivado {
 
-    /** EL conection. */
+    /** La conexión a la base de datos. */
     private static Connection conection;
 
     /**
-     * Cargar lista aeropuertos privados.
+     * Carga una lista de aeropuertos privados desde la base de datos.
      *
-     * @return the observable list
+     * @return una lista observable de modelos de aeropuertos privados
      */
     public static ObservableList<AeropuertoPrivadoModel> cargarListaAeropuertosPrivados(){
-        ObservableList<AeropuertoPrivadoModel>lst=FXCollections.observableArrayList();
+        ObservableList<AeropuertoPrivadoModel> lst = FXCollections.observableArrayList();
         try {
-            conection=ConexionBBDD.getConnection();
-            String select="SELECT id,numero_socios,nombre,anio_inauguracion,capacidad,id_direccion,imagen FROM aeropuertos_privados,aeropuertos WHERE id=id_aeropuerto";
+            conection = ConexionBBDD.getConnection();
+            String select = "SELECT id, numero_socios, nombre, anio_inauguracion, capacidad, id_direccion, imagen FROM aeropuertos_privados, aeropuertos WHERE id = id_aeropuerto";
             PreparedStatement pstmt = conection.prepareStatement(select);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                AeropuertoPrivadoModel modelo=new AeropuertoPrivadoModel(rs.getString("nombre"),rs.getInt("anio_inauguracion"),rs.getInt("capacidad"), DaoDireccion.crearModeloDireccionPorID(rs.getInt("id_direccion")), rs.getBlob("imagen"),rs.getInt("numero_socios"));
+                AeropuertoPrivadoModel modelo = new AeropuertoPrivadoModel(rs.getString("nombre"), rs.getInt("anio_inauguracion"), rs.getInt("capacidad"), DaoDireccion.crearModeloDireccionPorID(rs.getInt("id_direccion")), rs.getBlob("imagen"), rs.getInt("numero_socios"));
                 modelo.setId(rs.getInt("id"));
                 lst.add(modelo);
             }
@@ -41,6 +43,12 @@ public class DaoAeropuertoPrivado {
         return lst;
     }
 
+    /**
+     * Inserta un nuevo aeropuerto privado en la base de datos.
+     *
+     * @param aeropuertoPrivado el modelo del aeropuerto privado a insertar
+     * @throws SQLException si hay un error durante la inserción en la base de datos
+     */
     public static void insertarAeropuertoPrivado(AeropuertoPrivadoModel aeropuertoPrivado) throws SQLException {
         String sql = "INSERT INTO aeropuertos_privados (nombre, calle, ciudad, pais, numero, anio_inauguracion, capacidad, num_socios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -62,42 +70,59 @@ public class DaoAeropuertoPrivado {
         }
     }
 
-    public static void aniadir(int idAeropuerto,int numSocios) {
-        conection=ConexionBBDD.getConnection();
-        String insert="INSERT INTO aeropuertos_privados VALUES (?,?)";
+    /**
+     * Añade un nuevo registro de aeropuerto privado asociado a un ID de aeropuerto existente.
+     *
+     * @param idAeropuerto el ID del aeropuerto
+     * @param numSocios    el número de socios del aeropuerto
+     */
+    public static void aniadir(int idAeropuerto, int numSocios) {
+        conection = ConexionBBDD.getConnection();
+        String insert = "INSERT INTO aeropuertos_privados VALUES (?, ?)";
         try {
             PreparedStatement pstmt;
-            pstmt=conection.prepareStatement(insert);
-            pstmt.setInt(1,idAeropuerto);
-            pstmt.setInt(2,numSocios);
+            pstmt = conection.prepareStatement(insert);
+            pstmt.setInt(1, idAeropuerto);
+            pstmt.setInt(2, numSocios);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void modificarPorID(int id,int numSocios) {
-        conection=ConexionBBDD.getConnection();
-        String update="UPDATE aeropuertos_privados SET numero_socios=? WHERE id_aeropuerto=?";
+    /**
+     * Modifica el número de socios de un aeropuerto privado existente.
+     *
+     * @param id       el ID del aeropuerto privado a modificar
+     * @param numSocios el nuevo número de socios
+     */
+    public static void modificarPorID(int id, int numSocios) {
+        conection = ConexionBBDD.getConnection();
+        String update = "UPDATE aeropuertos_privados SET numero_socios = ? WHERE id_aeropuerto = ?";
         try {
             PreparedStatement pstmt;
-            pstmt=conection.prepareStatement(update);
+            pstmt = conection.prepareStatement(update);
             pstmt.setInt(1, numSocios);
-            pstmt.setInt(2,id);
+            pstmt.setInt(2, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Elimina un aeropuerto privado de la base de datos basado en su ID.
+     *
+     * @param id el ID del aeropuerto privado a eliminar
+     */
     public static void eliminar(int id) {
-        conection=ConexionBBDD.getConnection();
-        String delete="DELETE FROM aeropuertos_privados WHERE id_aeropuerto=?";
+        conection = ConexionBBDD.getConnection();
+        String delete = "DELETE FROM aeropuertos_privados WHERE id_aeropuerto = ?";
         try {
-            PreparedStatement pstmt=conection.prepareStatement(delete);
-            pstmt.setInt(1,id);
+            PreparedStatement pstmt = conection.prepareStatement(delete);
+            pstmt.setInt(1, id);
             pstmt.executeUpdate();
-        }catch(SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
     }

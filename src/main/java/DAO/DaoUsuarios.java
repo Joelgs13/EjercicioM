@@ -8,9 +8,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase de acceso a datos para la entidad Usuario.
+ * Proporciona métodos para realizar operaciones en la base de datos relacionadas con los usuarios.
+ */
 public class DaoUsuarios {
 
-    // Método para obtener un usuario de la base de datos por su nombre de usuario
+    /**
+     * Obtiene un usuario de la base de datos por su nombre de usuario.
+     *
+     * @param nombreUsuario el nombre de usuario que se desea buscar
+     * @return un objeto UsuarioModel que representa el usuario encontrado,
+     *         o null si no se encuentra ningún usuario con ese nombre
+     */
     public static UsuarioModel getUsuario(String nombreUsuario) {
         Connection connection = null;
         UsuarioModel usuario = null;
