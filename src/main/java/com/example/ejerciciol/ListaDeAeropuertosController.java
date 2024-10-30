@@ -25,101 +25,69 @@ import java.sql.SQLException;
 
 public class ListaDeAeropuertosController {
 
-    @FXML
-    private ToggleGroup grupoRB;
+    @FXML private ToggleGroup grupoRB;
 
-    @FXML
-    private MenuItem miActivarDesactivarAvion;
+    @FXML private MenuItem miActivarDesactivarAvion;
 
-    @FXML
-    private MenuItem miAniadirAeropuerto;
+    @FXML private MenuItem miAniadirAeropuerto;
 
-    @FXML
-    private MenuItem miAniadirAvion;
+    @FXML private MenuItem miAniadirAvion;
 
-    @FXML
-    private MenuItem miBorrarAeropuerto;
+    @FXML private MenuItem miBorrarAeropuerto;
 
-    @FXML
-    private MenuItem miEditarAeropuerto;
+    @FXML private MenuItem miEditarAeropuerto;
 
-    @FXML
-    private MenuItem miEliminarAvion;
+    @FXML private MenuItem miEliminarAvion;
 
-    @FXML
-    private MenuItem miInformacionAeropuerto;
+    @FXML private MenuItem miInformacionAeropuerto;
 
-    @FXML
-    private RadioButton rbPrivados;
+    @FXML private RadioButton rbPrivados;
 
-    @FXML
-    private RadioButton rbPublicos;
+    @FXML private RadioButton rbPublicos;
 
-    @FXML
-    private TableView<AeropuertoPrivadoModel> tablaPriv;
+    @FXML private TableView<AeropuertoPrivadoModel> tablaPriv;
 
-    @FXML
-    private TableView<AeropuertoPublicoModel> tablaPubli;
+    @FXML private TableView<AeropuertoPublicoModel> tablaPubli;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, Integer> tcIdPrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, Integer> tcIdPrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, Integer> tcIdPublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, Integer> tcIdPublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, String> tcNombrePrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, String> tcNombrePrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, String> tcNombrePublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, String> tcNombrePublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, String> tcPaisPrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, String> tcPaisPrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, String> tcPaisPublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, String> tcPaisPublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, String> tcCiudadPrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, String> tcCiudadPrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, String> tcCiudadPublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, String> tcCiudadPublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, String> tcCallePrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, String> tcCallePrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, String> tcCallePublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, String> tcCallePublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, Integer> tcNumeroPrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, Integer> tcNumeroPrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, Integer> tcNumeroPublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, Integer> tcNumeroPublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, Integer> tcAnioPrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, Integer> tcAnioPrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, Integer> tcAnioPublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, Integer> tcAnioPublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, Integer> tcCapacidadPrivado;
+    @FXML private TableColumn<AeropuertoPrivadoModel, Integer> tcCapacidadPrivado;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, Integer> tcCapacidadPublico;
+    @FXML private TableColumn<AeropuertoPublicoModel, Integer> tcCapacidadPublico;
 
-    @FXML
-    private TableColumn<AeropuertoPrivadoModel, Integer> tcNumeroSocios;
+    @FXML private TableColumn<AeropuertoPrivadoModel, Integer> tcNumeroSocios;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, Integer> tcNumeroTrabajadores;
+    @FXML private TableColumn<AeropuertoPublicoModel, Integer> tcNumeroTrabajadores;
 
-    @FXML
-    private TableColumn<AeropuertoPublicoModel, Double> tcFinanciacion;
+    @FXML private TableColumn<AeropuertoPublicoModel, Double> tcFinanciacion;
 
-    @FXML
-    private TextField tfNombre;
+    @FXML private TextField tfNombre;
 
     private static ObservableList<AeropuertoPrivadoModel> listaTodasPrivado;
     private static ObservableList<AeropuertoPublicoModel> listaTodasPublico;
