@@ -16,7 +16,7 @@ import java.util.Properties;
  */
 public class HelloApplication extends Application {
 
-    private static Stage stage;  // La ventana principal de la aplicación
+     static Stage stage;  // La ventana principal de la aplicación
 
     /**
      * Método que se llama al iniciar la aplicación.

@@ -5,20 +5,24 @@ import Model.UsuarioModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Controlador para la pantalla de inicio de sesión. Gestiona la autenticación
  * del usuario y la transición a la pantalla de lista de aeropuertos.
  */
-public class LoginController {
+public class LoginController implements Initializable {
 
     @FXML
     private Button btnLogin;
@@ -28,6 +32,22 @@ public class LoginController {
 
     @FXML
     private TextField tfUsuario;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Listener para activar el botón de login al presionar Enter
+        tfPassword.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                btnLogin.fire();  // Simula un clic en el botón Login
+            }
+        });
+
+        tfUsuario.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                tfPassword.requestFocus();  // Mueve el foco al campo de contraseña
+            }
+        });
+    }
 
     /**
      * Método que se ejecuta cuando se presiona el botón de inicio de sesión.
