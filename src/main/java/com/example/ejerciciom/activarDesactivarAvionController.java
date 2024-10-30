@@ -17,6 +17,7 @@ import DAO.DaoAvion;
 public class activarDesactivarAvionController {
 
     @FXML public Button btnGuardar;
+    @FXML public Button btnCancelar;
     @FXML
     private ComboBox<AeropuertoModel> cbAeropuertos; // ComboBox para seleccionar aeropuertos
 
@@ -44,6 +45,9 @@ public class activarDesactivarAvionController {
 
         if (btnGuardar != null) {
             btnGuardar.setDefaultButton(true); // Establecer el botón Guardar como predeterminado
+        }
+        if (btnCancelar != null) {
+            btnCancelar.setCancelButton(true); // Establecer el botón Cancelar como botón de tipo cancel
         }
     }
 

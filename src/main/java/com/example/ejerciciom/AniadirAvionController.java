@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 public class AniadirAvionController implements Initializable {
 
     @FXML public Button btnGuardar;
+    @FXML public Button btnCancelar;
     @FXML
     private ComboBox<AeropuertoModel> cbAeropuerto; // ComboBox para seleccionar el aeropuerto
 
@@ -141,6 +142,9 @@ public class AniadirAvionController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (btnGuardar != null) {
             btnGuardar.setDefaultButton(true); // Establecer el botón Guardar como predeterminado
+        }
+        if (btnCancelar != null) {
+            btnCancelar.setCancelButton(true); // Establecer el botón Cancelar como botón de tipo cancel
         }
     }
 }

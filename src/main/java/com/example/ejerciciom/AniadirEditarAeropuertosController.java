@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 public class AniadirEditarAeropuertosController implements Initializable {
 
     @FXML public Button btnGuardar;
+    @FXML public Button btnCancelar;
     @FXML private Label lbFinanciacion;
 
     @FXML private Label lbNumeroDeSocios;
@@ -529,6 +530,9 @@ public class AniadirEditarAeropuertosController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (btnGuardar != null) {
             btnGuardar.setDefaultButton(true); // Establecer el botón Guardar como predeterminado
+        }
+        if (btnCancelar != null) {
+            btnCancelar.setCancelButton(true); // Establecer el botón Cancelar como botón de tipo cancel
         }
     }
 }
