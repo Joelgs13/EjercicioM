@@ -340,7 +340,21 @@ public class ListaDeAeropuertosController {
 
     @FXML
     void eliminarAvion(ActionEvent event) {
-
+        borrar=true;
+        s=new Stage();
+        Scene scene;
+        try {
+            FXMLLoader controlador = new FXMLLoader(HelloApplication.class.getResource("activarDesactivarAvion.fxml"));
+            scene = new Scene(controlador.load());
+            s.setTitle("ELIMINAR AVION");
+            s.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        s.setResizable(false);
+        s.initOwner(HelloApplication.getStage());
+        s.initModality(javafx.stage.Modality.WINDOW_MODAL);
+        s.showAndWait();
     }
 
     @FXML
