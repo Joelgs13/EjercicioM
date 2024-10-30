@@ -3,14 +3,28 @@ package Model;
 import java.sql.Blob;
 import java.util.Objects;
 
+/**
+ * Clase que representa un Aeropuerto.
+ * Esta clase contiene información sobre un aeropuerto, incluyendo su nombre,
+ * año de inauguración, capacidad, dirección e imagen.
+ */
 public class AeropuertoModel {
-     int id;
-     String nombre;
-     int anioInauguracion;
-     int capacidad;
-     DireccionModel direccion;
-     Blob imagen;
+     int id; // Identificador del aeropuerto
+     String nombre; // Nombre del aeropuerto
+     int anioInauguracion; // Año en que se inauguró el aeropuerto
+     int capacidad; // Capacidad del aeropuerto
+     DireccionModel direccion; // Dirección del aeropuerto
+     Blob imagen; // Imagen del aeropuerto
 
+    /**
+     * Constructor de la clase AeropuertoModel.
+     *
+     * @param nombre el nombre del aeropuerto
+     * @param anioInauguracion el año de inauguración del aeropuerto
+     * @param capacidad la capacidad del aeropuerto
+     * @param direccion la dirección del aeropuerto
+     * @param imagen la imagen del aeropuerto en formato Blob
+     */
     public AeropuertoModel(String nombre, int anioInauguracion, int capacidad, DireccionModel direccion, Blob imagen) {
         super();
         this.nombre = nombre;
@@ -51,6 +65,6 @@ public class AeropuertoModel {
 
     @Override
     public String toString() {
-        return this.nombre;
+        return this.nombre; // Retorna el nombre del aeropuerto como representación de cadena
     }
 }
