@@ -1,6 +1,6 @@
 package com.example.ejerciciom;
 
-import BBDD.ConexionBBDD;
+import com.example.ejerciciom.BBDD.ConexionBBDD;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +14,7 @@ import java.util.Properties;
  * Extiende la clase Application de JavaFX y gestiona la inicialización
  * y el lanzamiento de la interfaz de usuario.
  */
-public class HelloApplication extends Application {
+public class EjercicioMApp extends Application {
 
      static Stage stage;  // La ventana principal de la aplicación
 
@@ -30,7 +30,7 @@ public class HelloApplication extends Application {
     public void start(Stage s) throws IOException {
         Properties connConfig = ConexionBBDD.loadProperties();  // Carga la configuración de conexión a la base de datos
         stage = s;  // Establece el escenario principal
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));  // Carga el archivo FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(EjercicioMApp.class.getResource("login.fxml"));  // Carga el archivo FXML
         Scene scene = new Scene(fxmlLoader.load(), 220, 150);  // Crea una nueva escena con el tamaño especificado
         stage.setResizable(false);  // Evita que la ventana se pueda redimensionar
         stage.setTitle("AVIONES - LOGIN!");  // Establece el título de la ventana

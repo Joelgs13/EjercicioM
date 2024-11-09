@@ -1,4 +1,4 @@
-package Model;
+package com.example.ejerciciom.Model;
 
 import java.sql.Blob;
 import java.util.Objects;

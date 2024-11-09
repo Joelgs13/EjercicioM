@@ -1,7 +1,7 @@
 package com.example.ejerciciom;
 
-import DAO.DaoUsuarios;
-import Model.UsuarioModel;
+import com.example.ejerciciom.DAO.DaoUsuarios;
+import com.example.ejerciciom.Model.UsuarioModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package Model;
+package com.example.ejerciciom.Model;
 
 /**
  * Clase que representa un modelo de dirección.

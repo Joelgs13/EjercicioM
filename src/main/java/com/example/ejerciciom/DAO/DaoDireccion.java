@@ -1,9 +1,9 @@
-package DAO;
+package com.example.ejerciciom.DAO;
 
 import java.sql.*;
 
-import BBDD.ConexionBBDD;
-import Model.DireccionModel;
+import com.example.ejerciciom.BBDD.ConexionBBDD;
+import com.example.ejerciciom.Model.DireccionModel;
 
 /**
  * Clase de acceso a datos para la entidad Dirección.

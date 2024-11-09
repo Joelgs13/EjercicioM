@@ -1,15 +1,11 @@
-package DAO;
+package com.example.ejerciciom.DAO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import BBDD.ConexionBBDD;
+import com.example.ejerciciom.BBDD.ConexionBBDD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import Model.AeropuertoModel;
-import Model.AeropuertoPrivadoModel;
-import Model.AeropuertoPublicoModel;
+import com.example.ejerciciom.Model.AeropuertoModel;
 
 /**
  * Clase de acceso a datos para la entidad Aeropuerto. Proporciona métodos para

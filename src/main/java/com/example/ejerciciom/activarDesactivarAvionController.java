@@ -1,12 +1,12 @@
 package com.example.ejerciciom;
 
-import DAO.DaoAeropuerto;
-import Model.AeropuertoModel;
-import Model.AvionModel;
+import com.example.ejerciciom.DAO.DaoAeropuerto;
+import com.example.ejerciciom.Model.AeropuertoModel;
+import com.example.ejerciciom.Model.AvionModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import DAO.DaoAvion;
+import com.example.ejerciciom.DAO.DaoAvion;
 
 /**
  * Controlador para gestionar la activación y desactivación de aviones.
