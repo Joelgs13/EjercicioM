@@ -4,9 +4,9 @@ module com.example.ejerciciol {
     requires java.sql.rowset;
 
 
-    opens com.example.ejerciciom to javafx.fxml;
-    opens com.example.ejerciciom.Model to javafx.base;
+    opens es.joel.ejerciciom to javafx.fxml;
+    opens es.joel.ejerciciom.Model to javafx.base;
 
-    exports com.example.ejerciciom;
-    exports com.example.ejerciciom.Model;
+    exports es.joel.ejerciciom;
+    exports es.joel.ejerciciom.Model;
 }
